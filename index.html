@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botva.ru — Глубокий аудит безопасности и технический анализ</title>
+    <style>
+        :root {
+            --bg: #0a0e17;
+            --card: #111827;
+            --card-border: #1e293b;
+            --accent: #3b82f6;
+            --accent2: #8b5cf6;
+            --critical: #ef4444;
+            --high: #f97316;
+            --medium: #eab308;
+            --low: #22c55e;
+            --info: #06b6d4;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+            --glow: rgba(59,130,246,0.15);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(239,68,68,0.04) 0%, transparent 50%);
+            z-index: -1;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: var(--critical);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero .subtitle {
+            font-size: 20px;
+            color: var(--text2);
+            margin-bottom: 32px;
+        }
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text2);
+            font-size: 14px;
+        }
+        .hero-meta-item svg { width: 16px; height: 16px; opacity: 0.7; }
+
+        /* Score Card */
+        .score-section {
+            padding: 60px 0;
+        }
+        .score-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .score-circle-wrap {
+            display: flex;
+            justify-content: center;
+        }
+        .score-circle {
+            position: relative;
+            width: 220px;
+            height: 220px;
+        }
+        .score-circle svg {
+            width: 220px;
+            height: 220px;
+            transform: rotate(-90deg);
+        }
+        .score-circle .bg { stroke: #1e293b; }
+        .score-circle .fill {
+            stroke: var(--critical);
+            stroke-dasharray: 628;
+            stroke-dashoffset: 464;
+            transition: stroke-dashoffset 2s ease;
+            filter: drop-shadow(0 0 8px rgba(239,68,68,0.4));
+        }
+        .score-value {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .score-value .number {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--critical);
+        }
+        .score-value .label {
+            font-size: 14px;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .score-breakdown h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+        .score-bar-group { margin-bottom: 12px; }
+        .score-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .score-bar-label span:last-child { color: var(--text2); }
+        .score-bar {
+            height: 8px;
+            background: #1e293b;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 40px 0;
+        }
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .stat-critical .stat-number { color: var(--critical); }
+        .stat-high .stat-number { color: var(--high); }
+        .stat-medium .stat-number { color: var(--medium); }
+        .stat-low .stat-number { color: var(--low); }
+
+        /* Section */
+        .section {
+            padding: 50px 0;
+            position: relative;
+        }
+        .section + .section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+        .card:hover { border-color: #334155; }
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card p, .card li { color: var(--text2); font-size: 15px; }
+        .card ul { padding-left: 20px; }
+        .card li { margin-bottom: 6px; }
+
+        /* Vulnerability Cards */
+        .vuln-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid;
+            transition: transform 0.2s;
+        }
+        .vuln-card:hover { transform: translateX(4px); }
+        .vuln-card.critical { border-left-color: var(--critical); }
+        .vuln-card.high { border-left-color: var(--high); }
+        .vuln-card.medium { border-left-color: var(--medium); }
+        .vuln-card.low { border-left-color: var(--low); }
+        .vuln-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .vuln-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .vuln-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-critical { background: rgba(239,68,68,0.15); color: var(--critical); }
+        .badge-high { background: rgba(249,115,22,0.15); color: var(--high); }
+        .badge-medium { background: rgba(234,179,8,0.15); color: var(--medium); }
+        .badge-low { background: rgba(34,197,94,0.15); color: var(--low); }
+        .badge-cvss { background: rgba(59,130,246,0.15); color: var(--accent); }
+        .vuln-desc { color: var(--text2); font-size: 14px; line-height: 1.7; }
+
+        /* Code Block */
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            color: #c9d1d9;
+            line-height: 1.5;
+        }
+        .code-block .keyword { color: #ff7b72; }
+        .code-block .string { color: #a5d6ff; }
+        .code-block .comment { color: #8b949e; }
+        .code-block .highlight { background: rgba(239,68,68,0.15); display: inline; padding: 2px 4px; border-radius: 3px; }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        .data-table th, .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 14px;
+        }
+        .data-table th {
+            color: var(--text2);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .data-table tr:hover td { background: rgba(59,130,246,0.03); }
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-dot.red { background: var(--critical); box-shadow: 0 0 6px var(--critical); }
+        .status-dot.orange { background: var(--high); box-shadow: 0 0 6px var(--high); }
+        .status-dot.yellow { background: var(--medium); }
+        .status-dot.green { background: var(--low); box-shadow: 0 0 6px var(--low); }
+
+        /* Infrastructure Grid */
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 16px;
+        }
+        .server-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: border-color 0.3s;
+        }
+        .server-card:hover { border-color: var(--accent); }
+        .server-name {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .server-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+            color: var(--text2);
+        }
+        .server-detail span:last-child { color: var(--text); font-family: monospace; }
+
+        /* Nav */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10,14,23,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 100;
+            padding: 0 24px;
+            transition: transform 0.3s;
+        }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+        .nav-logo {
+            font-weight: 800;
+            font-size: 18px;
+            color: #fff;
+        }
+        .nav-links { display: flex; gap: 4px; }
+        .nav-links a {
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Tracker Grid */
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        .tracker-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .tracker-card h4 {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        .tracker-card p { font-size: 13px; color: var(--text2); }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent), var(--accent2), var(--critical));
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -27px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--bg);
+        }
+        .timeline-item.urgent .timeline-dot { background: var(--critical); }
+        .timeline-item.warn .timeline-dot { background: var(--high); }
+        .timeline-content h4 { font-size: 15px; margin-bottom: 4px; }
+        .timeline-content p { font-size: 13px; color: var(--text2); }
+
+        /* Footer */
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text2);
+            font-size: 13px;
+            border-top: 1px solid var(--card-border);
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .score-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+            .infra-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate { animation: fadeInUp 0.6s ease forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+        .tab {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text2);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .tab:hover { border-color: var(--accent); color: #fff; }
+        .tab.active {
+            background: rgba(59,130,246,0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Pulse animation for critical items */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .pulse { animation: pulse 2s infinite; }
+
+        /* Progress bars for performance */
+        .perf-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .perf-label { width: 160px; font-size: 14px; color: var(--text2); flex-shrink: 0; }
+        .perf-bar {
+            flex: 1;
+            height: 24px;
+            background: #1e293b;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        .perf-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-logo">АУДИТ BOTVA.RU</div>
+        <div class="nav-links">
+            <a href="#overview">Обзор</a>
+            <a href="#infrastructure">Инфраструктура</a>
+            <a href="#vulnerabilities">Уязвимости</a>
+            <a href="#code">Код</a>
+            <a href="#performance">Производительность</a>
+            <a href="#tracking">Трекинг</a>
+            <a href="#recommendations">Рекомендации</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+<!-- Hero Section -->
+<section class="hero" id="overview">
+    <div class="hero-badge pulse">ОБНАРУЖЕНЫ КРИТИЧЕСКИЕ УЯЗВИМОСТИ</div>
+    <h1 class="animate">Аудит безопасности Botva.ru</h1>
+    <p class="subtitle animate delay-1">Глубокий технический анализ инфраструктуры онлайн-игры Botva, качества кода и уязвимостей безопасности</p>
+    <div class="hero-meta animate delay-2">
+        <div class="hero-meta-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            7 мая 2026
+        </div>
+        <div class="hero-meta-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+            Проанализировано 5 поддоменов
+        </div>
+        <div class="hero-meta-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            30+ уязвимостей
+        </div>
+        <div class="hero-meta-item">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            ~1.3 МБ кода проанализировано
+        </div>
+    </div>
+</section>
+
+<!-- Score Section -->
+<section class="score-section" id="score">
+    <div class="score-grid">
+        <div class="score-circle-wrap animate">
+            <div class="score-circle">
+                <svg viewBox="0 0 220 220">
+                    <circle class="bg" cx="110" cy="110" r="100" fill="none" stroke-width="12"/>
+                    <circle class="fill" cx="110" cy="110" r="100" fill="none" stroke-width="12" stroke-linecap="round"/>
+                </svg>
+                <div class="score-value">
+                    <div class="number">2.6</div>
+                    <div class="label">из 10</div>
+                </div>
+            </div>
+        </div>
+        <div class="score-breakdown animate delay-1">
+            <h3>Общая техническая оценка</h3>
+            <div class="score-bar-group">
+                <div class="score-bar-label"><span>Безопасность</span><span>1.5 / 10</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:15%;background:var(--critical)"></div></div>
+            </div>
+            <div class="score-bar-group">
+                <div class="score-bar-label"><span>Качество кода</span><span>2.0 / 10</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:20%;background:var(--critical)"></div></div>
+            </div>
+            <div class="score-bar-group">
+                <div class="score-bar-label"><span>Производительность</span><span>3.0 / 10</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:30%;background:var(--high)"></div></div>
+            </div>
+            <div class="score-bar-group">
+                <div class="score-bar-label"><span>Инфраструктура</span><span>3.5 / 10</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:35%;background:var(--high)"></div></div>
+            </div>
+            <div class="score-bar-group">
+                <div class="score-bar-label"><span>Мобильная/Адаптивная</span><span>1.0 / 10</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:10%;background:var(--critical)"></div></div>
+            </div>
+            <div class="score-bar-group">
+                <div class="score-bar-label"><span>SEO/Доступность</span><span>2.0 / 10</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:20%;background:var(--critical)"></div></div>
+            </div>
+            <div class="score-bar-group">
+                <div class="score-bar-label"><span>Конфиденциальность/GDPR</span><span>1.5 / 10</span></div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:15%;background:var(--critical)"></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Row -->
+<div class="stats-row">
+    <div class="stat-card stat-critical animate">
+        <div class="stat-number">11</div>
+        <div class="stat-label">Критические</div>
+    </div>
+    <div class="stat-card stat-high animate delay-1">
+        <div class="stat-number">8</div>
+        <div class="stat-label">Высокий риск</div>
+    </div>
+    <div class="stat-card stat-medium animate delay-2">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Средние</div>
+    </div>
+    <div class="stat-card stat-low animate delay-3">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Низкие / Инфо</div>
+    </div>
+</div>
+
+<!-- Infrastructure Section -->
+<section class="section" id="infrastructure">
+    <div class="section-header">
+        <div class="section-icon" style="background:rgba(59,130,246,0.1)">&#127760;</div>
+        <h2>Анализ инфраструктуры</h2>
+    </div>
+    
+    <div class="infra-grid">
+        <div class="server-card">
+            <div class="server-name"><span class="status-dot green"></span> avatar.botva.ru</div>
+            <div class="server-detail"><span>IP</span><span>91.225.238.180</span></div>
+            <div class="server-detail"><span>Nginx</span><span style="color:var(--high)">            1.18.0 (устарел)</span></div>
+                        <div class="server-detail"><span>Cookie Secure</span><span style="color:var(--critical)">НЕТ (флаги отсутствуют)</span></div>
+            <div class="server-detail"><span>.svn/</span><span style="color:var(--high)">403 (существует!)</span></div>
+            <div class="server-detail"><span>/admin/</span><span style="color:var(--critical)">200 (доступен)</span></div>
+        </div>
+        <div class="server-card">
+            <div class="server-name"><span class="status-dot green"></span> g1.botva.ru</div>
+            <div class="server-detail"><span>IP</span><span>91.225.238.180</span></div>
+            <div class="server-detail"><span>Nginx</span><span style="color:var(--low)">1.29.2 (актуальный)</span></div>
+            <div class="server-detail"><span>Cookie Secure</span><span style="color:var(--critical)">НЕТ</span></div>
+            <div class="server-detail"><span>.svn/</span><span style="color:var(--high)">200 (фоллбэк)</span></div>
+            <div class="server-detail"><span>/admin/</span><span style="color:var(--critical)">200 (доступен)</span></div>
+        </div>
+        <div class="server-card">
+            <div class="server-name"><span class="status-dot green"></span> g2.botva.ru</div>
+            <div class="server-detail"><span>IP</span><span>91.225.238.x</span></div>
+            <div class="server-detail"><span>Nginx</span><span style="color:var(--low)">1.29.2 (актуальный)</span></div>
+            <div class="server-detail"><span>Cookie Secure</span><span style="color:var(--critical)">НЕТ</span></div>
+            <div class="server-detail"><span>.svn/</span><span style="color:var(--high)">200 (фоллбэк)</span></div>
+            <div class="server-detail"><span>/admin/</span><span style="color:var(--critical)">200 (доступен)</span></div>
+        </div>
+        <div class="server-card">
+            <div class="server-name"><span class="status-dot green"></span> g3.botva.ru</div>
+            <div class="server-detail"><span>IP</span><span>91.225.238.x</span></div>
+            <div class="server-detail"><span>Nginx</span><span style="color:var(--high)">1.18.0 (устарел)</span></div>
+            <div class="server-detail"><span>Cookie Secure</span><span style="color:var(--critical)">НЕТ</span></div>
+            <div class="server-detail"><span>.svn/</span><span>403 (заблокирован)</span></div>
+            <div class="server-detail"><span>/admin/</span><span style="color:var(--critical)">200 (доступен)</span></div>
+        </div>
+        <div class="server-card">
+            <div class="server-name"><span class="status-dot green"></span> turbo.botva.ru</div>
+            <div class="server-detail"><span>IP</span><span>91.225.238.x</span></div>
+            <div class="server-detail"><span>Nginx</span><span style="color:var(--high)">1.18.0 (устарел)</span></div>
+            <div class="server-detail"><span>Cookie Secure</span><span style="color:var(--critical)">НЕТ</span></div>
+            <div class="server-detail"><span>.svn/</span><span style="color:var(--high)">200 (фоллбэк)</span></div>
+            <div class="server-detail"><span>/admin/</span><span style="color:var(--critical)">200 (доступен)</span></div>
+        </div>
+        <div class="server-card">
+            <div class="server-name"><span class="status-dot green"></span> i.botva.ru (CDN)</div>
+            <div class="server-detail"><span>IP</span><span>91.225.238.x</span></div>
+            <div class="server-detail"><span>Nginx</span><span style="color:var(--low)">1.29.2</span></div>
+            <div class="server-detail"><span>.svn/</span><span>403 (заблокирован)</span></div>
+            <div class="server-detail"><span>Роль</span><span>Статические файлы</span></div>
+            <div class="server-detail"><span>Корень</span><span>403 Forbidden</span></div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:24px">
+        <h3>&#128274; Конфигурация SSL / TLS</h3>
+        <table class="data-table">
+                        <tr><td>Центр сертификации</td><td>GlobalSign GCC R6 AlphaSSL CA 2023</td></tr>
+                        <tr><td>Срок действия</td><td style="color:var(--critical);font-weight:700">19 мая 2026 (ОСТАЛОСЬ 12 ДНЕЙ!)</td></tr>
+                        <tr><td>HSTS</td><td><span class="status-dot green"></span>Включен (max-age=31536000)</td></tr>
+                        <tr><td>Протокол</td><td>HTTP/2</td></tr>
+                        <tr><td>Заголовок сервера</td><td style="color:var(--high)">Раскрыт (nginx/1.18.0)</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+                <h3>&#128193; Открытые файлы и пути</h3>
+                <p style="margin-bottom:12px">Сканирование критических путей на всех поддоменах:</p>
+        <table class="data-table">
+            <thead><tr><th>Путь</th><th>Статус</th><th>Риск</th></tr></thead>
+            <tbody>
+                <tr><td><code>/admin/</code></td><td><span class="status-dot red"></span>200 OK (все сервера)</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                <tr><td><code>/.svn/entries</code></td><td><span class="status-dot orange"></span>403/200 (смешанный)</td><td><span class="badge badge-high">HIGH</span></td></tr>
+                <tr><td><code>/crossdomain.xml</code></td><td><span class="status-dot red"></span>200 — разрешает *</td><td><span class="badge badge-critical">CRITICAL</span></td></tr>
+                <tr><td><code>/test.php</code></td><td><span class="status-dot orange"></span>200 (0 байт)</td><td><span class="badge badge-medium">MEDIUM</span></td></tr>
+                <tr><td><code>/.htaccess</code></td><td><span class="status-dot yellow"></span>403</td><td><span class="badge badge-low">LOW</span></td></tr>
+                <tr><td><code>/robots.txt</code></td><td><span class="status-dot orange"></span>404 (отсутствует)</td><td><span class="badge badge-medium">MEDIUM</span></td></tr>
+                <tr><td><code>/.env</code></td><td>200 (фоллбэк на некоторых)</td><td><span class="badge badge-medium">MEDIUM</span></td></tr>
+                <tr><td><code>/.git/HEAD</code></td><td><span class="status-dot green"></span>404</td><td><span class="badge badge-low">OK</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Vulnerabilities Section -->
+<section class="section" id="vulnerabilities">
+    <div class="section-header">
+        <div class="section-icon" style="background:rgba(239,68,68,0.1)">&#128274;</div>
+        <h2>Уязвимости безопасности</h2>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('all')">Все (32)</button>
+        <button class="tab" onclick="showTab('critical')">Критические (11)</button>
+        <button class="tab" onclick="showTab('high')">Высокие (8)</button>
+        <button class="tab" onclick="showTab('medium')">Средние (7)</button>
+        <button class="tab" onclick="showTab('low')">Низкие (6)</button>
+    </div>
+
+    <div id="vuln-list">
+        <!-- CRITICAL -->
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">SSL-сертификат истекает через 12 дней</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 9.8</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Сертификат (GlobalSign AlphaSSL) истекает <strong>19 мая 2026</strong>. После истечения срока все HTTPS-соединения перестанут работать, браузеры покажут предупреждения безопасности, и пользователи не смогут зайти в игру. Механизм автопродления не обнаружен.
+            </div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Админ-панель публично доступна</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 9.1</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                <code>/admin/</code> возвращает 200 OK на ВСЕХ игровых серверах с полным HTML, включая jQuery UI, пользовательские скрипты (<code>/admin/script.js</code>) и стили. Показывает сообщение «Only debug mode» &mdash; но раскрывает структуру админки, JS-эндпоинты и может быть обойдена. Использует устаревший jQuery 1.10.2.
+            </div>
+            <div class="code-block">
+&lt;title&gt;<span class="highlight">Test zone</span>&lt;/title&gt;
+&lt;script src='<span class="string">/admin/script.js?v=201104141</span>'&gt;&lt;/script&gt;
+&lt;script src='<span class="string">https://i.botva.ru/css/jquery-1.10.2.min.js</span>'&gt;&lt;/script&gt;
+</div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Отсутствие CSRF-защиты на входе/регистрации</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 8.8</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Формы входа (<code>login.php</code>, <code>login.php?type=name</code>) и восстановления пароля (<code>login.php?a=forgot</code>) не содержат CSRF-токенов. Злоумышленник может создать вредоносную страницу, которая автоматически отправляет формы входа с учётными данными жертвы или принудительно сбросить пароль.
+            </div>
+            <div class="code-block">
+<span class="comment">&lt;!-- No CSRF token anywhere in the form --&gt;</span>
+&lt;form method="<span class="keyword">POST</span>" action="<span class="string">login.php</span>" class="submit_by_ajax"&gt;
+  &lt;input type="hidden" name="do_cmd" value="login"&gt;
+  &lt;input type="text" name="<span class="highlight">email</span>" placeholder="E-mail"&gt;
+  &lt;input type="password" name="<span class="highlight">password</span>" placeholder="Password"&gt;
+&lt;/form&gt;</div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">crossdomain.xml разрешает все домены (*)</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 8.6</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Все игровые сервера отдают <code>crossdomain.xml</code> с <code>&lt;allow-access-from domain="*" /&gt;</code>. Это позволяет любому Flash/Silverlight-приложению на любом домене выполнять аутентифицированные междоменные запросы к игре, потенциально похищая данные сессии.
+            </div>
+            <div class="code-block">
+&lt;?xml version="1.0"?&gt;
+&lt;cross-domain-policy&gt;
+  &lt;allow-access-from domain="<span class="highlight">*</span>" /&gt;
+&lt;/cross-domain-policy&gt;</div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Отсутствие ограничения частоты запросов на аутентификацию</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 8.1</span>
+                </div>
+            </div>
+            <div class="vuln-desc">Отсутствует ограничение частоты запросов, CAPTCHA или механизм блокировки аккаунта на эндпоинтах входа. Брутфорс-атаки могут перебирать неограниченное количество комбинаций паролей. AJAX-вход отправляет учётные данные через POST без какой-либо защиты от автоматизации.</div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Отсутствуют заголовки безопасности (0/7)</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 7.5</span>
+                </div>
+            </div>
+            <div class="vuln-desc">Ни один из критических заголовков безопасности не установлен:</div>
+            <table class="data-table">
+                <tr><td>Content-Security-Policy</td><td style="color:var(--critical)">                ОТСУТСТВУЕТ</td></tr>
+                                <tr><td>X-Frame-Options</td><td style="color:var(--critical)">ОТСУТСТВУЕТ</td></tr>
+                                <tr><td>X-Content-Type-Options</td><td style="color:var(--critical)">ОТСУТСТВУЕТ</td></tr>
+                                <tr><td>X-XSS-Protection</td><td style="color:var(--critical)">ОТСУТСТВУЕТ</td></tr>
+                                <tr><td>Referrer-Policy</td><td style="color:var(--critical)">ОТСУТСТВУЕТ</td></tr>
+                                <tr><td>Permissions-Policy</td><td style="color:var(--critical)">ОТСУТСТВУЕТ</td></tr>
+                                <tr><td>Cross-Origin-Opener-Policy</td><td style="color:var(--critical)">ОТСУТСТВУЕТ</td></tr>
+            </table>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Сессионные куки без флагов безопасности</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 7.4</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Игровые сервера (g1, g2, g3, turbo) устанавливают PHPSESSID без флагов <code>Secure</code>, <code>HttpOnly</code> или <code>SameSite</code>. Только <code>avatar.botva.ru</code> имеет частичные флаги (Secure + HttpOnly на странице редиректа, но игровые сервера их не имеют). Сессии могут быть украдены через XSS или MITM.
+            </div>
+            <div class="code-block">
+<span class="comment">// avatar.botva.ru (redirect only)</span>
+Set-Cookie: PHPSESSID=xxx; path=/; <span class="string">secure; HttpOnly; SameSite=none</span>
+
+<span class="comment">// g1.botva.ru, g2, g3, turbo (GAME SERVERS)</span>
+Set-Cookie: PHPSESSID=xxx; path=/ <span class="highlight">// NO secure, NO HttpOnly, NO SameSite!</span></div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">XSS-уязвимости — .html() без санитизации</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 7.2</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Более <strong>30 случаев</strong> использования jQuery <code>.html(data)</code>, где ответ сервера напрямую внедряется в DOM без санитизации. Если ответ сервера содержит вредоносный HTML/JS, это приводит к XSS. В сочетании с отсутствием CSP легко эксплуатируется.
+            </div>
+            <div class="code-block">
+<span class="comment">// Direct server response injection (XSS vector)</span>
+$('#body').<span class="highlight">html(data)</span>;          <span class="comment">// line 755</span>
+$('#l_popup').<span class="highlight">html(item.data)</span>;    <span class="comment">// line 755</span>
+$('#accordion').<span class="highlight">html(item.data)</span>; <span class="comment">// line 755</span>
+
+<span class="comment">// Fort report loading</span>
+$('.tab[rel='+tab+']').append(<span class="highlight">$(data).contents()</span>);  <span class="comment">// line 102</span></div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">jQuery 1.11.3 с известными CVE</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 6.9</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Основной JS-бандл использует jQuery <strong>1.11.3 (апрель 2015)</strong> &mdash; 11 лет. Известные уязвимости: CVE-2019-11358 (prototype pollution), CVE-2020-11022/11023 (XSS через .html()). Админ-панель использует ещё более старый jQuery <strong>1.10.2</strong>.
+            </div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">document.domain ослабляет изоляцию источников</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 6.5</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Главная страница устанавливает <code>document.domain = 'botva.ru'</code>, что ослабляет политику одного источника (Same-Origin Policy) для всех поддоменов. Если любой поддомен скомпрометирован (XSS), он может получить доступ к DOM ВСЕХ других поддоменов, включая игровые сервера с активными сессиями.
+            </div>
+            <div class="code-block">
+<span class="comment">// Line 34 of main HTML</span>
+document.<span class="highlight">domain</span> = '<span class="string">botva.ru</span>';  <span class="comment">// Weakens Same-Origin Policy</span></div>
+        </div>
+
+        <div class="vuln-card critical" data-severity="critical">
+            <div class="vuln-header">
+                <div class="vuln-title">Метаданные SVN-репозитория на продакшене</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-critical">CRITICAL</span>
+                    <span class="badge badge-cvss">CVSS 6.5</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Директория <code>/.svn/</code> существует на продакшен-серверах (возвращает 403 вместо 404). Это указывает на то, что код развёртывается напрямую из SVN-checkout без процесса сборки. Частичный доступ может раскрыть структуру исходного кода и URL репозитория.
+            </div>
+        </div>
+
+        <!-- HIGH -->
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">Игровой токен KEY передаётся в GET-параметрах</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                    <span class="badge badge-cvss">CVSS 6.1</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Анти-CSRF токен (переменная KEY) передаётся в URL-строке запроса (<code>?k=KEY</code>) для игровых действий. GET-параметры записываются в логи доступа сервера, историю браузера и заголовки Referer &mdash; риск утечки токена.
+            </div>
+            <div class="code-block">
+<span class="comment">// KEY sent in GET URL — visible in logs & Referer headers</span>
+$.get('fort.php?fast_finish='+id+'<span class="highlight">&k='+KEY</span>', function(result) {...});
+$.get('?a=place&type=11&do_cmd=delete&log='+id+'<span class="highlight">&k='+KEY</span>', ...);
+</div>
+        </div>
+
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">Токены аутентификации в WebSocket</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                    <span class="badge badge-cvss">CVSS 6.0</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Игровой клиент отправляет <code>user_uid</code> и <code>user_auth</code> в открытом виде через WebSocket при открытии соединения. Если WebSocket не использует WSS (TLS), эти учётные данные могут быть перехвачены.
+            </div>
+            <div class="code-block">
+onOpen: function() {
+    this.send("<span class="highlight">auth " + user_uid + ' ' + user_auth</span>");
+}</div>
+        </div>
+
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">6 вызовов eval() в основном бандле</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                    <span class="badge badge-cvss">CVSS 5.4</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                Основной JavaScript-бандл содержит 6 вызовов <code>eval()</code>. <code>eval()</code> выполняет произвольные строки как код &mdash; если какой-либо ввод контролируется пользователем, это приводит к инъекции кода. Современный JavaScript не имеет легитимных причин для использования eval().
+            </div>
+        </div>
+
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">Сайт поддержки: PHP 7.4.30 (EOL)</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                    <span class="badge badge-cvss">CVSS 5.3</span>
+                </div>
+            </div>
+            <div class="vuln-desc">
+                <code>support.destiny.games</code> раскрывает <code>X-Powered-By: PHP/7.4.30</code>. PHP 7.4 достиг конца поддержки в ноябре 2022 &mdash; никаких патчей безопасности уже 3.5+ лет. Также работает WordPress (wp-json доступен).
+            </div>
+        </div>
+
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">Несогласованность версий Nginx на серверах</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                </div>
+            </div>
+            <div class="vuln-desc">Разные версии nginx указывают на несогласованное обновление. avatar/g3/turbo работают на <strong>1.18.0</strong> (2020, устарел), а g1/g2/i на <strong>1.29.2</strong> (актуальный). Старые версии могут иметь неисправленные уязвимости.</div>
+        </div>
+
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">Использование innerHTML (5 случаев)</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                </div>
+            </div>
+            <div class="vuln-desc">Прямое присвоение <code>innerHTML</code> найдено в системе тултипов и других компонентах. В сочетании с отсутствием CSP создаёт дополнительную поверхность XSS-атаки помимо jQuery .html().</div>
+        </div>
+
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">Поля паролей без autocomplete="off"</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                </div>
+            </div>
+            <div class="vuln-desc">Формы входа не имеют <code>autocomplete="off"</code> или <code>autocomplete="new-password"</code> на полях пароля. Браузеры могут кэшировать учётные данные в общих средах (интернет-кафе, общие компьютеры).</div>
+        </div>
+
+        <div class="vuln-card high" data-severity="high">
+            <div class="vuln-header">
+                <div class="vuln-title">Yandex Вебвизор записывает ввод форм</div>
+                <div class="vuln-badges">
+                    <span class="badge badge-high">HIGH</span>
+                </div>
+            </div>
+            <div class="vuln-desc">Яндекс Метрика с включённым Вебвизором может записывать нажатия клавиш пользователей в формах, потенциально перехватывая пароли. Конфигурация маскировки ввода не обнаружена в настройках трекинга.</div>
+        </div>
+
+        <!-- MEDIUM -->
+        <div class="vuln-card medium" data-severity="medium">
+            <div class="vuln-header">
+                <div class="vuln-title">Отсутствует robots.txt</div>
+                <div class="vuln-badges"><span class="badge badge-medium">MEDIUM</span></div>
+            </div>
+            <div class="vuln-desc">Файл robots.txt не найден (404). Поисковые системы могут индексировать критические пути как /admin/, страницы входа и внутренние эндпоинты.</div>
+        </div>
+
+        <div class="vuln-card medium" data-severity="medium">
+            <div class="vuln-header">
+                <div class="vuln-title">DOCTYPE HTML 4.01 Transitional</div>
+                <div class="vuln-badges"><span class="badge badge-medium">MEDIUM</span></div>
+            </div>
+            <div class="vuln-desc">Использует устаревший DOCTYPE HTML 4.01 Transitional от 1999 года. Отсутствуют семантические элементы HTML5, роли ARIA и современные функции доступности.</div>
+        </div>
+
+        <div class="vuln-card medium" data-severity="medium">
+            <div class="vuln-header">
+                <div class="vuln-title">Кодировка windows-1251</div>
+                <div class="vuln-badges"><span class="badge badge-medium">MEDIUM</span></div>
+            </div>
+            <div class="vuln-desc">Устаревшая кириллическая кодировка вместо UTF-8. Может вызывать искажение символов и исторически связана с методами обхода XSS на основе кодировки.</div>
+        </div>
+
+        <div class="vuln-card medium" data-severity="medium">
+            <div class="vuln-header">
+                <div class="vuln-title">test.php на продакшене</div>
+                <div class="vuln-badges"><span class="badge badge-medium">MEDIUM</span></div>
+            </div>
+            <div class="vuln-desc"><code>/test.php</code> возвращает 200 OK с 0 байт и устанавливает PHP-сессию. Отладочные/тестовые файлы не должны существовать на продакшене &mdash; они могут принимать параметры, раскрывающие внутреннее состояние.</div>
+        </div>
+
+        <div class="vuln-card medium" data-severity="medium">
+            <div class="vuln-header">
+                <div class="vuln-title">Отсутствует Content Security Policy</div>
+                <div class="vuln-badges"><span class="badge badge-medium">MEDIUM</span></div>
+            </div>
+            <div class="vuln-desc">Без CSP любая XSS-уязвимость может загружать внешние скрипты, передавать данные на любой домен и выполнять встроенный JavaScript без ограничений.</div>
+        </div>
+
+        <div class="vuln-card medium" data-severity="medium">
+            <div class="vuln-header">
+                <div class="vuln-title">Раскрытие версии сервера</div>
+                <div class="vuln-badges"><span class="badge badge-medium">MEDIUM</span></div>
+            </div>
+            <div class="vuln-desc">Заголовок сервера раскрывает точные версии nginx и PHP, что упрощает злоумышленникам поиск известных уязвимостей для конкретных версий.</div>
+        </div>
+
+        <div class="vuln-card medium" data-severity="medium">
+            <div class="vuln-header">
+                <div class="vuln-title">SameSite=none на куках</div>
+                <div class="vuln-badges"><span class="badge badge-medium">MEDIUM</span></div>
+            </div>
+            <div class="vuln-desc">Поддомен avatar устанавливает <code>SameSite=none</code>, что позволяет отправлять куки в межсайтовых запросах, делая возможными CSRF-атаки с любого домена.</div>
+        </div>
+
+        <!-- LOW -->
+        <div class="vuln-card low" data-severity="low">
+            <div class="vuln-header">
+                <div class="vuln-title">347 объявлений !important в CSS</div>
+                <div class="vuln-badges"><span class="badge badge-low">LOW</span></div>
+            </div>
+            <div class="vuln-desc">Чрезмерное переопределение специфичности указывает на плохую архитектуру CSS. 256 в основном CSS + 91 во второстепенном CSS-файле. Крайне затрудняет обслуживание.</div>
+        </div>
+
+        <div class="vuln-card low" data-severity="low">
+            <div class="vuln-header">
+                <div class="vuln-title">Отсутствует Sitemap.xml</div>
+                <div class="vuln-badges"><span class="badge badge-low">LOW</span></div>
+            </div>
+            <div class="vuln-desc">Отсутствие XML-карты сайта ухудшает SEO. В сочетании с отсутствием robots.txt поисковая оптимизация фактически отсутствует.</div>
+        </div>
+
+        <div class="vuln-card low" data-severity="low">
+            <div class="vuln-header">
+                <div class="vuln-title">Вьюпорт фиксирован на 990px</div>
+                <div class="vuln-badges"><span class="badge badge-low">LOW</span></div>
+            </div>
+            <div class="vuln-desc"><code>&lt;meta name="viewport" content="width=990"&gt;</code> &mdash; не адаптивный. Только 6 @media-запросов на 649 КБ CSS. Игра непригодна на мобильных устройствах.</div>
+        </div>
+
+        <div class="vuln-card low" data-severity="low">
+            <div class="vuln-header">
+                <div class="vuln-title">Зависимости от Flash (ZeroClipboard)</div>
+                <div class="vuln-badges"><span class="badge badge-low">LOW</span></div>
+            </div>
+            <div class="vuln-desc">Код ссылается на ZeroClipboard SWF для копирования в буфер обмена. Flash Player был прекращён в 2020 году &mdash; эта функция не работает во всех современных браузерах.</div>
+        </div>
+
+        <div class="vuln-card low" data-severity="low">
+            <div class="vuln-header">
+                <div class="vuln-title">Устаревшие условные комментарии IE</div>
+                <div class="vuln-badges"><span class="badge badge-low">LOW</span></div>
+            </div>
+            <div class="vuln-desc">HTML5 shiv загружен для совместимости с IE. IE был прекращён в 2022 &mdash; мёртвый код, увеличивающий вес страницы.</div>
+        </div>
+
+        <div class="vuln-card low" data-severity="low">
+            <div class="vuln-header">
+                <div class="vuln-title">Отсутствуют роли ARIA и доступность</div>
+                <div class="vuln-badges"><span class="badge badge-low">LOW</span></div>
+            </div>
+            <div class="vuln-desc">Ноль ARIA-атрибутов, нет семантических элементов HTML5, нет ссылок пропуска навигации, нет управления фокусом. Полностью недоступно для пользователей с ограниченными возможностями.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Code Analysis Section -->
+<section class="section" id="code">
+    <div class="section-header">
+        <div class="section-icon" style="background:rgba(139,92,246,0.1)">&#128187;</div>
+        <h2>Анализ кода</h2>
+    </div>
+
+    <div class="two-col">
+        <div class="card">
+            <h3>&#128196; Структура HTML</h3>
+            <table class="data-table">
+                <tr><td>DOCTYPE</td><td>HTML 4.01 Transitional</td></tr>
+                <tr><td>Кодировка</td><td>windows-1251</td></tr>
+                <tr><td>Размер</td><td>39 359 байт</td></tr>
+                <tr><td>Формы</td><td>3 (вход, вход по имени, восстановление)</td></tr>
+                <tr><td>Встроенные скрипты</td><td>12 блоков</td></tr>
+                <tr><td>Iframe</td><td>1 (GTM noscript)</td></tr>
+                <tr><td>Внешние домены</td><td>9 уникальных</td></tr>
+                <tr><td>Schema.org</td><td>Product (некорректно для игры)</td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h3>&#127912; Анализ CSS</h3>
+            <table class="data-table">
+                <tr><td>Файлы</td><td>2 бандла</td></tr>
+                <tr><td>Общий размер</td><td>649 КБ (без сжатия)</td></tr>
+                <tr><td>!important</td><td style="color:var(--high)">347 объявлений</td></tr>
+                <tr><td>Префиксы -webkit-</td><td>41</td></tr>
+                <tr><td>Префиксы -moz-</td><td>51</td></tr>
+                <tr><td>Префиксы -ms-</td><td>17</td></tr>
+                <tr><td>@media-запросы</td><td>6 (не адаптивный)</td></tr>
+                <tr><td>Минификация</td><td style="color:var(--high)">Нет</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+        <h3>&#9889; Анализ JavaScript</h3>
+        <table class="data-table">
+            <tr><td>Основной бандл</td><td>617 891 байт (618 КБ)</td></tr>
+            <tr><td>Версия jQuery</td><td style="color:var(--critical)">1.11.3 (апрель 2015)</td></tr>
+            <tr><td>jQuery админки</td><td style="color:var(--critical)">1.10.2 (ещё старее)</td></tr>
+            <tr><td>Вызовы eval()</td><td style="color:var(--high)">6</td></tr>
+            <tr><td>Использование innerHTML</td><td style="color:var(--high)">5</td></tr>
+            <tr><td>Вызовы .html(переменная)</td><td style="color:var(--critical)">30+</td></tr>
+            <tr><td>document.write</td><td>0 (хорошо)</td></tr>
+            <tr><td>Трекинг JS</td><td>26 430 байт (Destiny Scope)</td></tr>
+            <tr><td>Шаблонизатор</td><td>jTemplates (пользовательский, обфусцированный)</td></tr>
+            <tr><td>Анимации</td><td>Пользовательская параллакс-система</td></tr>
+        </table>
+    </div>
+</section>
+
+<!-- Performance Section -->
+<section class="section" id="performance">
+    <div class="section-header">
+        <div class="section-icon" style="background:rgba(234,179,8,0.1)">&#9889;</div>
+        <h2>Анализ производительности</h2>
+    </div>
+
+    <div class="card">
+        <h3>Распределение веса страницы</h3>
+        <div style="margin-top:16px">
+            <div class="perf-item">
+                <div class="perf-label">HTML</div>
+                <div class="perf-bar">
+                    <div class="perf-bar-fill" style="width:2%;background:var(--accent)">39 KB</div>
+                </div>
+            </div>
+            <div class="perf-item">
+                <div class="perf-label">JavaScript</div>
+                <div class="perf-bar">
+                    <div class="perf-bar-fill" style="width:35%;background:var(--high)">618 KB</div>
+                </div>
+            </div>
+            <div class="perf-item">
+                <div class="perf-label">CSS (main)</div>
+                <div class="perf-bar">
+                    <div class="perf-bar-fill" style="width:25%;background:var(--medium)">455 KB</div>
+                </div>
+            </div>
+            <div class="perf-item">
+                <div class="perf-label">CSS (secondary)</div>
+                <div class="perf-bar">
+                    <div class="perf-bar-fill" style="width:11%;background:var(--medium)">194 KB</div>
+                </div>
+            </div>
+            <div class="perf-item">
+                <div class="perf-label">Скрипты трекинга</div>
+                <div class="perf-bar">
+                    <div class="perf-bar-fill" style="width:5%;background:var(--critical)">~80 KB</div>
+                </div>
+            </div>
+            <div class="perf-item">
+                <div class="perf-label">Изображения/Аватары</div>
+                <div class="perf-bar">
+                    <div class="perf-bar-fill" style="width:22%;background:var(--accent2)">~500 KB+</div>
+                </div>
+            </div>
+        </div>
+        <p style="margin-top:16px;font-size:14px;color:var(--text2)">
+            <strong style="color:var(--high)">Общий оценочный вес страницы: ~2.5 МБ</strong> &mdash; нет разделения кода, нет ленивой загрузки, нет tree shaking. Всё загружается при первоначальной загрузке страницы.
+        </p>
+    </div>
+
+    <div class="two-col" style="margin-top:20px">
+        <div class="card">
+            <h3>Время отклика</h3>
+            <table class="data-table">
+                <tr><td>Начальный HTML</td><td>0.58с</td></tr>
+                <tr><td>Полная загрузка страницы</td><td style="color:var(--high)">4-6 секунд</td></tr>
+                <tr><td>JS-бандл</td><td>~1.2с</td></tr>
+                <tr><td>CSS-бандлы</td><td>~0.8с</td></tr>
+                <tr><td>CDN (i.botva.ru)</td><td>~0.3с</td></tr>
+            </table>
+        </div>
+        <div class="card">
+            <h3>Проблемы оптимизации</h3>
+            <ul>
+                <li>Нет gzip/brotli на статических файлах</li>
+                <li>Нет географического распределения CDN</li>
+                <li>Нет HTTP/2 push</li>
+                <li>Нет подсказок ресурсов (preload/prefetch)</li>
+                <li>Нет оптимизации изображений (WebP/AVIF)</li>
+                <li>Cache-Control: no-cache на HTML</li>
+                <li>Хостинг в одной подсети (91.225.238.x)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Tracking Section -->
+<section class="section" id="tracking">
+    <div class="section-header">
+        <div class="section-icon" style="background:rgba(6,182,212,0.1)">&#128065;</div>
+        <h2>Трекинг и конфиденциальность</h2>
+    </div>
+
+    <p style="color:var(--text2);margin-bottom:24px;font-size:15px">
+        <strong style="color:var(--critical)">6 сторонних трекеров</strong> обнаружено. Нет баннера согласия на куки, нет ссылки на политику конфиденциальности, нет соответствия GDPR.
+    </p>
+
+    <div class="tracker-grid">
+        <div class="tracker-card">
+            <h4>&#128200; Google Tag Manager</h4>
+            <p>Контейнер: <code>GTM-KH95RD8</code><br>Динамически загружает дополнительные скрипты трекинга. Может внедрять любой код из панели Google Tag Manager.</p>
+        </div>
+        <div class="tracker-card">
+            <h4>&#128202; Yandex Metrika</h4>
+            <p>Счётчик: <code>12136408</code><br>Полная аналитика с записью сессий <strong>Вебвизором</strong> &mdash; захватывает движения мыши, клики и потенциально ввод форм, включая пароли.</p>
+        </div>
+        <div class="tracker-card">
+            <h4>&#127919; ClickFrog</h4>
+            <p>Домен: <code>stat.clickfrog.ru</code><br>Трекер российской рекламной сети. Загружает noscript-пиксель для пользователей без JavaScript. Рекламная сеть с низкой репутацией.</p>
+        </div>
+        <div class="tracker-card">
+            <h4>&#128242; VK Pixel</h4>
+            <p>Через GTM-контейнер<br>Пиксель ретаргетинга ВКонтакте для рекламы. Отслеживает поведение пользователей для рекламной платформы VK.</p>
+        </div>
+        <div class="tracker-card">
+            <h4>&#127760; Destiny Scope</h4>
+            <p>Домен: <code>lbn2.ddestiny.ru</code><br>Пользовательская междоменная система трекинга (26 КБ). Устанавливает куки для отслеживания рефералов в сети Destiny.Games. Компиляция из TypeScript.</p>
+        </div>
+        <div class="tracker-card">
+            <h4>&#128203; LiveInternet</h4>
+            <p>Домен: <code>counter.yadro.ru</code><br>Российский счётчик веб-аналитики. Базовый трекинг посещений на основе пиксельной методологии.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Recommendations Section -->
+<section class="section" id="recommendations">
+    <div class="section-header">
+        <div class="section-icon" style="background:rgba(34,197,94,0.1)">&#128736;</div>
+        <h2>Рекомендации</h2>
+    </div>
+
+    <div class="timeline">
+        <div class="timeline-item urgent">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <h4 style="color:var(--critical)">НЕМЕДЛЕННО (на этой неделе)</h4>
+                <p>1. <strong>Продлить SSL-сертификат</strong> &mdash; истекает через 12 дней<br>
+                2. <strong>Заблокировать /admin/</strong> через белый список IP или HTTP-аутентификацию<br>
+                3. <strong>Добавить Secure, HttpOnly, SameSite=Strict</strong> ко всем сессионным кукам<br>
+                4. <strong>Удалить crossdomain.xml</strong> или ограничить конкретными доменами<br>
+                5. <strong>Скрыть версию nginx</strong> &mdash; <code>server_tokens off;</code><br>
+                6. <strong>Удалить test.php</strong> с продакшена<br>
+                7. <strong>Заблокировать /.svn/</strong> доступ на всех серверах единообразно</p>
+            </div>
+        </div>
+        <div class="timeline-item warn">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <h4 style="color:var(--high)">КРАТКОСРОЧНО (1-3 месяца)</h4>
+                <p>1. Добавить CSRF-токены ко всем формам<br>
+                2. Внедрить ограничение частоты запросов на эндпоинтах аутентификации<br>
+                3. Добавить заголовки безопасности (CSP, X-Frame-Options и т.д.)<br>
+                4. Обновить jQuery до 3.x (протестировать совместимость)<br>
+                5. Заменить eval() безопасными альтернативами<br>
+                6. Санитизировать все вызовы .html() через DOMPurify<br>
+                7. Обновить nginx до 1.29.x на всех серверах<br>
+                8. Деплоить через CI/CD, а не SVN checkout<br>
+                9. Удалить назначение document.domain</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <h4 style="color:var(--accent)">ДОЛГОСРОЧНО (3-12 месяцев)</h4>
+                <p>1. Мигрировать на кодировку UTF-8<br>
+                2. Мигрировать на HTML5 с семантическими элементами<br>
+                3. Добавить адаптивный дизайн / мобильную поддержку<br>
+                4. Внедрить CSP с nonce-базированными встроенными скриптами<br>
+                5. Добавить баннер согласия на куки и политику конфиденциальности<br>
+                6. Оптимизировать ресурсы (минификация, сжатие, разделение кода)<br>
+                7. Добавить роли ARIA и функции доступности<br>
+                8. Настроить Web Application Firewall (WAF)<br>
+                9. Внедрить полноценный мониторинг и оповещения</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>Отчёт глубокого аудита безопасности Botva.ru &mdash; Создан 7 мая 2026</p>
+        <p style="margin-top:8px;opacity:0.6">Этот отчёт предназначен только для информационных целей. Все тесты проводились неинвазивно с использованием публично доступных эндпоинтов.</p>
+    </div>
+</footer>
+
+<script>
+// Tab filtering
+function showTab(severity) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    document.querySelectorAll('.vuln-card').forEach(card => {
+        if (severity === 'all' || card.dataset.severity === severity) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// Animate on scroll
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.animate').forEach(el => {
+    el.style.animationPlayState = 'paused';
+    observer.observe(el);
+});
+
+// Active nav highlight
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    let current = '';
+    
+    sections.forEach(section => {
+        const top = section.offsetTop - 100;
+        if (window.scrollY >= top) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
+    });
+});
+</script>
+
+</body>
+</html>
