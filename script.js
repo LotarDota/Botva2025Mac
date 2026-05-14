@@ -1,44 +1,37 @@
-// ========== COLOR PICKER ==========
-let activeColor = '';
+// ========== LEVEL COLORS ==========
+const LV_COLORS = [
+  '#8b949e', // 0 — серый
+  '#3fb950', // I — зелёный
+  '#58a6ff', // II — синий
+  '#bc8cff', // III — фиолетовый
+  '#f0883e', // IV — оранжевый
+  '#ff7b72'  // V — красный
+];
 
-const pickerBtns = document.querySelectorAll('.cp-btn');
-const customColorInput = document.getElementById('customColor');
-
-pickerBtns.forEach(btn => {
-  btn.onclick = () => {
-    pickerBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeColor = btn.dataset.color;
-  };
-});
-
-customColorInput.oninput = () => {
-  pickerBtns.forEach(b => b.classList.remove('active'));
-  activeColor = customColorInput.value;
-};
-
-function applyColor(el) {
-  if (activeColor === '') {
-    el.classList.remove('colored');
-    el.style.borderColor = '';
-    el.style.boxShadow = '';
-    el.style.borderTopColor = '';
-    const img = el.querySelector('img');
-    if (img) img.style.borderColor = '';
-  } else {
-    el.classList.add('colored');
-    el.style.borderColor = activeColor;
-    el.style.boxShadow = `0 0 12px ${activeColor}44, inset 0 0 8px ${activeColor}22`;
-    el.style.borderTopColor = activeColor;
-    const img = el.querySelector('img');
-    if (img) img.style.borderColor = activeColor;
-  }
-}
-
-// Apply to cosmo slots
+// ========== COSMO LEVEL SWITCHER ==========
 document.querySelectorAll('.cosmo-slot').forEach(slot => {
-  slot.style.cursor = 'pointer';
-  slot.onclick = () => applyColor(slot);
+  const ids = slot.dataset.ids.split(',');
+  const img = slot.querySelector('img');
+  const idLabel = slot.querySelector('.cosmo-ids');
+  const lvSpans = slot.querySelectorAll('.lv');
+
+  lvSpans.forEach((lv, idx) => {
+    lv.onclick = e => {
+      e.stopPropagation();
+      lvSpans.forEach(l => l.classList.remove('active'));
+      lv.classList.add('active');
+
+      const itemId = ids[idx];
+      img.src = `https://i.botva.ru/images/items/${itemId}s.jpg`;
+      idLabel.textContent = `ID ${itemId}`;
+
+      const color = LV_COLORS[idx];
+      slot.style.borderColor = color;
+      slot.style.borderTopColor = color;
+      slot.style.boxShadow = `0 0 16px ${color}44, inset 0 0 8px ${color}22`;
+      img.style.borderColor = color;
+    };
+  });
 });
 
 // ========== MODAL ==========
@@ -75,10 +68,7 @@ stalkerus.forEach(s => {
   card.className = 'stalk-card' + (s.id === 2760 ? ' main' : '');
   const img = `https://i.botva.ru/images/items/${s.id}s.jpg`;
   card.innerHTML = `<img src="${img}" alt="${s.name}" onerror="this.style.display='none'"><h4>${s.name}</h4>`;
-  card.onclick = e => {
-    if (activeColor !== '') { applyColor(card); e.stopPropagation(); }
-    else showModal(s.name, `item_${s.id}`, item ? item.d : '', img);
-  };
+  card.onclick = () => showModal(s.name, `item_${s.id}`, item ? item.d : '', img);
   stGrid.appendChild(card);
 });
 
@@ -96,10 +86,7 @@ function renderItems(query) {
     const imgSrc = item.img || `https://g1.botva.ru/i/global/icon/promo200.png`;
     card.innerHTML = `<img src="${imgSrc}" alt="${item.n}" onerror="this.src='https://g1.botva.ru/i/global/icon/promo200.png'">
       <div><div class="iname">${item.n}</div><div class="iid">item_${item.id}</div></div>`;
-    card.onclick = () => {
-      if (activeColor !== '') applyColor(card);
-      else showModal(item.n, `item_${item.id}`, item.d, item.img);
-    };
+    card.onclick = () => showModal(item.n, `item_${item.id}`, item.d, item.img);
     grid.appendChild(card);
   });
 }
@@ -122,10 +109,7 @@ artIds.forEach(id => {
   const img = item.img || '';
   card.innerHTML = `<img src="${img}" alt="${item.n}" onerror="this.style.display='none'">
     <div><div class="aid">item_${item.id}</div><h4>${item.n}</h4><p>${item.d ? item.d.slice(0, 150) : ''}</p></div>`;
-  card.onclick = () => {
-    if (activeColor !== '') applyColor(card);
-    else showModal(item.n, `item_${item.id}`, item.d, item.img);
-  };
+  card.onclick = () => showModal(item.n, `item_${item.id}`, item.d, item.img);
   artGrid.appendChild(card);
 });
 

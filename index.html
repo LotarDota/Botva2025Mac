@@ -115,72 +115,55 @@
     <section class="section section-dark" id="cosmo">
         <div class="container">
             <h2>Космический сет</h2>
-            <p class="section-sub">36 предметов: 6 слотов × 6 уровней (0–V). Апрель 2026. Нажми на цвет, потом на вещь.</p>
-            <div class="color-picker" id="colorPicker">
-                <span class="cp-label">Цвет:</span>
-                <button class="cp-btn active" data-color="" title="Без цвета">✕</button>
-                <button class="cp-btn" data-color="#58a6ff" style="background:#58a6ff" title="Синий"></button>
-                <button class="cp-btn" data-color="#3fb950" style="background:#3fb950" title="Зелёный"></button>
-                <button class="cp-btn" data-color="#f0883e" style="background:#f0883e" title="Оранжевый"></button>
-                <button class="cp-btn" data-color="#bc8cff" style="background:#bc8cff" title="Фиолетовый"></button>
-                <button class="cp-btn" data-color="#ff7b72" style="background:#ff7b72" title="Красный"></button>
-                <button class="cp-btn" data-color="#d2a8ff" style="background:#d2a8ff" title="Лавандовый"></button>
-                <button class="cp-btn" data-color="#ffd700" style="background:#ffd700" title="Золотой"></button>
-                <button class="cp-btn" data-color="#79c0ff" style="background:#79c0ff" title="Голубой"></button>
-                <button class="cp-btn" data-color="#f778ba" style="background:#f778ba" title="Розовый"></button>
-                <button class="cp-btn" data-color="#56d364" style="background:#56d364" title="Изумрудный"></button>
-                <button class="cp-btn" data-color="#ff4500" style="background:#ff4500" title="Огненный"></button>
-                <button class="cp-btn" data-color="#00ced1" style="background:#00ced1" title="Бирюзовый"></button>
-                <input type="color" id="customColor" class="cp-custom" value="#58a6ff" title="Свой цвет">
-            </div>
+            <p class="section-sub">36 предметов: 6 слотов × 6 уровней (0–V). Апрель 2026. Нажми на уровень — сменится фото и цвет.</p>
             <div class="cosmo-grid">
-                <div class="cosmo-slot c-helm">
+                <div class="cosmo-slot c-helm" data-ids="2768,2774,2780,2786,2792,2798">
                     <img src="https://i.botva.ru/images/items/2768s.jpg" alt="Космошлем">
                     <h4>Космошлем</h4>
                     <p class="cosmo-stat">Сила · Защита · Ловкость</p>
                     <p class="cosmo-bonus">+26% скидка прокачки за золото</p>
-                    <div class="levels"><span class="lv lv0">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
-                    <span class="cosmo-ids">ID 2768, 2774, 2780, 2786, 2792, 2798</span>
+                    <div class="levels"><span class="lv lv0 active">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
+                    <span class="cosmo-ids">ID 2768</span>
                 </div>
-                <div class="cosmo-slot c-armor">
+                <div class="cosmo-slot c-armor" data-ids="2769,2775,2781,2787,2793,2799">
                     <img src="https://i.botva.ru/images/items/2769s.jpg" alt="Космобронь">
                     <h4>Космобронь</h4>
                     <p class="cosmo-stat">Сила · Защита · Масса · Мастерство</p>
                     <p class="cosmo-bonus">-15% характеристики противника</p>
-                    <div class="levels"><span class="lv lv0">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
-                    <span class="cosmo-ids">ID 2769, 2775, 2781, 2787, 2793, 2799</span>
+                    <div class="levels"><span class="lv lv0 active">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
+                    <span class="cosmo-ids">ID 2769</span>
                 </div>
-                <div class="cosmo-slot c-weap">
+                <div class="cosmo-slot c-weap" data-ids="2770,2776,2782,2788,2794,2800">
                     <img src="https://i.botva.ru/images/items/2770s.jpg" alt="Космотык">
                     <h4>Космотык</h4>
                     <p class="cosmo-stat">Сила · Защита · Ловкость</p>
                     <p class="cosmo-bonus">+31% украденного золота в бодалке</p>
-                    <div class="levels"><span class="lv lv0">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
-                    <span class="cosmo-ids">ID 2770, 2776, 2782, 2788, 2794, 2800</span>
+                    <div class="levels"><span class="lv lv0 active">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
+                    <span class="cosmo-ids">ID 2770</span>
                 </div>
-                <div class="cosmo-slot c-gloves">
+                <div class="cosmo-slot c-gloves" data-ids="2771,2777,2783,2789,2795,2801">
                     <img src="https://i.botva.ru/images/items/2771s.jpg" alt="Космоперчи">
                     <h4>Космоперчи</h4>
                     <p class="cosmo-stat">+50% к базовой Силе</p>
                     <p class="cosmo-bonus">51% защита золота/кристаллов</p>
-                    <div class="levels"><span class="lv lv0">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
-                    <span class="cosmo-ids">ID 2771, 2777, 2783, 2789, 2795, 2801</span>
+                    <div class="levels"><span class="lv lv0 active">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
+                    <span class="cosmo-ids">ID 2771</span>
                 </div>
-                <div class="cosmo-slot c-boots">
+                <div class="cosmo-slot c-boots" data-ids="2772,2778,2784,2790,2796,2802">
                     <img src="https://i.botva.ru/images/items/2772s.jpg" alt="Космоножи">
                     <h4>Космоножи</h4>
                     <p class="cosmo-stat">Сила · Ловкость · Мастерство</p>
                     <p class="cosmo-bonus">+31% украденного золота в бодалке</p>
-                    <div class="levels"><span class="lv lv0">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
-                    <span class="cosmo-ids">ID 2772, 2778, 2784, 2790, 2796, 2802</span>
+                    <div class="levels"><span class="lv lv0 active">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
+                    <span class="cosmo-ids">ID 2772</span>
                 </div>
-                <div class="cosmo-slot c-shield">
+                <div class="cosmo-slot c-shield" data-ids="2773,2779,2785,2791,2797,2803">
                     <img src="https://i.botva.ru/images/items/2773s.jpg" alt="Космощит">
                     <h4>Космощит</h4>
                     <p class="cosmo-stat">Защита · Ловкость · Масса</p>
                     <p class="cosmo-bonus">51% защита золота/кристаллов</p>
-                    <div class="levels"><span class="lv lv0">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
-                    <span class="cosmo-ids">ID 2773, 2779, 2785, 2791, 2797, 2803</span>
+                    <div class="levels"><span class="lv lv0 active">0</span><span class="lv lv1">I</span><span class="lv lv2">II</span><span class="lv lv3">III</span><span class="lv lv4">IV</span><span class="lv lv5">V</span></div>
+                    <span class="cosmo-ids">ID 2773</span>
                 </div>
             </div>
             <div class="cosmo-set-bonus">
