@@ -22,7 +22,8 @@ document.querySelectorAll('.cosmo-slot').forEach(slot => {
       lv.classList.add('active');
 
       const itemId = ids[idx];
-      img.src = `https://i.botva.ru/images/items/${itemId}s.jpg`;
+      const baseId = ids[0];
+      img.src = `https://i.botva.ru/images/items/${baseId}s.jpg`;
       idLabel.textContent = `ID ${itemId}`;
 
       const color = LV_COLORS[idx];
