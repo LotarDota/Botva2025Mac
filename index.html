@@ -3,226 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ботва Онлайн — Исследователь игрового мира</title>
+    <title>Ботва Онлайн — Новинки Весна 2026</title>
     <link rel="icon" href="https://g1.botva.ru/i/global/icon/promo200.png">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <canvas id="particles"></canvas>
-
-    <!-- Hero -->
-    <header class="hero" id="hero">
-        <div class="hero-content">
-            <div class="logo-glow">
-                <img src="https://g1.botva.ru/i/global/icon/promo200.png" alt="Ботва Онлайн" class="hero-logo">
-            </div>
-            <h1 class="hero-title"><span class="t1">БОТВА</span><span class="t2">ОНЛАЙН</span></h1>
-            <p class="hero-sub">Исследователь игрового мира &bull; Все предметы, арты и секреты из исходников</p>
-            <div class="hero-stats">
-                <div class="stat"><span class="stat-n" data-count="1973">0</span><span class="stat-l">Предметов</span></div>
-                <div class="stat"><span class="stat-n" data-count="5">0</span><span class="stat-l">Серверов</span></div>
-                <div class="stat"><span class="stat-n" data-count="11">0</span><span class="stat-l">Гильдий</span></div>
-                <div class="stat"><span class="stat-n" data-count="21">0</span><span class="stat-l">Питомцев</span></div>
-            </div>
-            <a href="#nav-sec" class="scroll-btn">Исследовать &#8595;</a>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-row">
+            <a href="#" class="brand"><img src="https://g1.botva.ru/i/global/icon/promo200.png" alt="">Ботва Онлайн</a>
+            <nav class="nav">
+                <a href="#news">Новости</a>
+                <a href="#cosmo">Космо-сет</a>
+                <a href="#stalkerus">Сталкерусы</a>
+                <a href="#items">Предметы</a>
+                <a href="#artifacts">Артефакты</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Nav -->
-    <nav class="topnav" id="topnav">
-        <div class="nav-wrap">
-            <a href="#hero" class="nav-brand"><img src="https://g1.botva.ru/i/global/icon/promo200.png" alt="">Ботва</a>
-            <div class="nav-links" id="navLinks">
-                <a href="#servers">Серверы</a>
-                <a href="#races">Расы</a>
-                <a href="#guilds">Гильдии</a>
-                <a href="#pets">Питомцы</a>
-                <a href="#titanuses">Титанусы</a>
-                <a href="#all-items">Все предметы</a>
-                <a href="#tech">Техинфо</a>
-            </div>
-            <button class="burger" id="burger">&#9776;</button>
-        </div>
-    </nav>
-    <div id="nav-sec"></div>
-
-    <!-- Servers -->
-    <section class="sec" id="servers">
+    <!-- Hero -->
+    <section class="hero">
         <div class="container">
-            <h2 class="sec-title">Серверы Ботвинии</h2>
-            <div class="servers-row">
-                <div class="srv"><div class="srv-id">1</div><h3>Адын</h3><span>g1.botva.ru</span><div class="badge green">Online</div></div>
-                <div class="srv"><div class="srv-id">2</div><h3>Дыдва</h3><span>g2.botva.ru</span><div class="badge green">Online</div></div>
-                <div class="srv"><div class="srv-id">3</div><h3>Тытра</h3><span>g3.botva.ru</span><div class="badge green">Online</div></div>
-                <div class="srv turbo"><div class="srv-id">4</div><h3>Turbo</h3><span>turbo.botva.ru</span><div class="badge blue">Online</div></div>
-                <div class="srv avatar-srv"><div class="srv-id">101</div><h3>Аватар</h3><span>avatar.botva.ru</span><div class="badge purple">Online</div></div>
-            </div>
+            <span class="badge-period">1 марта — 14 мая 2026</span>
+            <h1>Новинки Ботвы</h1>
+            <p class="hero-sub">68 новых предметов, космические сражения, сталкерусы и земли Титанусов</p>
         </div>
     </section>
 
-    <!-- Races -->
-    <section class="sec sec-alt" id="races">
+    <!-- News timeline -->
+    <section class="section" id="news">
         <div class="container">
-            <h2 class="sec-title">Расы Ботвинии</h2>
-            <p class="sec-desc">Две великие расы — 4 набора аватарок у каждой</p>
-            <div class="races">
-                <div class="race-card race-pig">
-                    <h3>Свинтусы</h3>
-                    <p>Коварные и хитрые свиньи. Мастера интриг и любители капусты.</p>
-                    <div class="ava-row">
-                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_gs.jpg" alt="Свинтус beer">
-                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_gs1.jpg" alt="Свинтус pirate">
-                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_gs.jpg" alt="Свинтус halloween">
-                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_gs.jpg" alt="Свинтус avatar">
-                    </div>
-                    <div class="ava-row">
-                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_bs.jpg" alt="Свинтус м beer">
-                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_bs1.jpg" alt="Свинтус м pirate">
-                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_bs.jpg" alt="Свинтус м halloween">
-                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_bs.jpg" alt="Свинтус м avatar">
+            <h2>Новости за период</h2>
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-date">08.05</div>
+                    <div class="tl-body">
+                        <h3>Майская акция — Вторая волна!</h3>
+                        <p>С Днём Победы! Подарки для всех игроков. Продолжение майских событий с новыми наградами.</p>
                     </div>
                 </div>
-                <div class="race-card race-ram">
-                    <h3>Барантусы</h3>
-                    <p>Упрямые и бесстрашные бараны. Воины с железными рогами.</p>
-                    <div class="ava-row">
-                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_gb.jpg" alt="Барантус beer">
-                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_gb1.jpg" alt="Барантус pirate">
-                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_gb.jpg" alt="Барантус halloween">
-                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_gb.jpg" alt="Барантус avatar">
-                    </div>
-                    <div class="ava-row">
-                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_bb.jpg" alt="Барантус м beer">
-                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_bb1.jpg" alt="Барантус м pirate">
-                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_bb.jpg" alt="Барантус м halloween">
-                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_bb.jpg" alt="Барантус м avatar">
+                <div class="tl-item">
+                    <div class="tl-date">01.05</div>
+                    <div class="tl-body">
+                        <h3>Майская Акция — Первая волна</h3>
+                        <p>Майские гуляния: неожиданности от заморских торговцев, шашлыки и новые награды на всех серверах.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Guilds -->
-    <section class="sec" id="guilds">
-        <div class="container">
-            <h2 class="sec-title">Гильдии</h2>
-            <p class="sec-desc">11 гильдий найдены в коде — нажми на карточку для описания</p>
-            <div class="guilds-grid" id="guildsGrid"></div>
-        </div>
-    </section>
-
-    <!-- Pets -->
-    <section class="sec sec-alt" id="pets">
-        <div class="container">
-            <h2 class="sec-title">Питомцы (Летуны)</h2>
-            <p class="sec-desc">21 питомец — нажми для описания</p>
-            <div class="pets-grid" id="petsGrid"></div>
-        </div>
-    </section>
-
-    <!-- Titanuses -->
-    <section class="sec sec-titan" id="titanuses">
-        <div class="container">
-            <h2 class="sec-title">Земли Титанусов — Будущее обновление</h2>
-            <p class="sec-desc">Упоминания в JS-коде указывают на грядущий контент</p>
-            <div class="titan-grid">
-                <div class="titan-card">
-                    <div class="titan-badge">НАЙДЕНО В КОДЕ</div>
-                    <h3>Сталкерусы</h3>
-                    <p>Новые персонажи-исследователи. «Квантовый сундук» (item_2765) — содержит кванты сталкерусов для привлечения новых членов команды.</p>
-                    <div class="code-block"><code>popups['item_2765'] = ["Квантовый сундук", "...", "Сундук с выбором квантов сталкерусов..."]</code></div>
-                </div>
-                <div class="titan-card">
-                    <div class="titan-badge">НАЙДЕНО В КОДЕ</div>
-                    <h3>Земли Титанусов</h3>
-                    <p>Новая локация. «Фрагментарный сундук» (item_2766) — фрагменты экипировки для сталкерусов, которые помогут в исследованиях земель Титанусов.</p>
-                    <div class="code-block"><code>popups['item_2766'] = ["Фрагментарный сундук", "...", "...для сталкерусов, которые помогут им в исследованиях земель Титанусов."]</code></div>
-                </div>
-                <div class="titan-card wide">
-                    <div class="titan-badge cosmo-badge">КОСМО-СЕТ</div>
-                    <h3>Космическая экипировка</h3>
-                    <p>36 предметов (6 слотов &times; 6 уровней, ID 2768-2803) — Космошлем, Космобронь, Космотык, Космоперчи, Космоножи, Космощит. Каждый улучшается от базового до V уровня.</p>
-                    <div class="cosmo-tags">
-                        <span>Космошлем 0-V</span><span>Космобронь 0-V</span><span>Космотык 0-V</span>
-                        <span>Космоперчи 0-V</span><span>Космоножи 0-V</span><span>Космощит 0-V</span>
+                <div class="tl-item">
+                    <div class="tl-date">24.04</div>
+                    <div class="tl-body">
+                        <h3>Апельсинка и больше зелени!</h3>
+                        <p>Акция на покупку зелени. Уникальная апельсинка — каждый день по 10 кристаллов просто так!</p>
                     </div>
                 </div>
-                <div class="titan-card">
-                    <div class="titan-badge magic-badge">МАГИЯ</div>
-                    <h3>Артефакт «Титан»</h3>
-                    <p>item_magic_123 — «Позволяет надевать вещи +2 уровня».</p>
+                <div class="tl-item highlight">
+                    <div class="tl-date">16.04</div>
+                    <div class="tl-body">
+                        <h3>Обновление Космических Сражений!</h3>
+                        <p>Уровни крутости для космического сета. Космические вещи получили индексы крутости с римскими цифрами.</p>
+                    </div>
                 </div>
-                <div class="titan-card">
-                    <div class="titan-badge">СТАЛКЕРУСЫ</div>
-                    <h3>Кванты сталкерусов</h3>
-                    <p>Кислый Эолан, Вишневый Люмион, Лимонный Фростиан, Мятный Сильван, Малиновый Эльрион, Апельсиновый Нивиан, Ежевичный Корвиан, Голубичный Велиан, Радужный Стультан — 9 уникальных квантов!</p>
+                <div class="tl-item highlight">
+                    <div class="tl-date">11.04</div>
+                    <div class="tl-body">
+                        <h3>Космические сражения и Пасха!</h3>
+                        <p>Запуск космических сражений — новый формат PvP с космической экипировкой. Пасхальные подарки для всех.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-date">01.04</div>
+                    <div class="tl-body">
+                        <h3>Антибот и Каторга</h3>
+                        <p>Введён антибот для отслеживания нелегальных программ. Система будет собирать данные месяц.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-date">24.03</div>
+                    <div class="tl-body">
+                        <h3>Большая весенняя Распродажа!</h3>
+                        <p>Распродажа до 9 апреля на всех серверах. Собираем улыбки для наград!</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-date">13.03</div>
+                    <div class="tl-body">
+                        <h3>Загадочное послание!</h3>
+                        <p>Хрустальный ларец найден при раскопках Ботвазавра. Таинственная история ждёт!</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-date">06.03</div>
+                    <div class="tl-body">
+                        <h3>8 Марта и Цветущая поляна</h3>
+                        <p>Международный женский день! Новые цветочные активности и подарки.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-date">02.03</div>
+                    <div class="tl-body">
+                        <h3>Раскопки Ботвазавра!</h3>
+                        <p>Археологические раскопки перед запуском новых обновлений. Дособираем награды!</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ALL ITEMS -->
-    <section class="sec" id="all-items">
+    <!-- Cosmo Set -->
+    <section class="section section-dark" id="cosmo">
         <div class="container">
-            <h2 class="sec-title">Все предметы игры</h2>
-            <p class="sec-desc">1973 предмета извлечены из pp.av2.js — нажми на карточку для описания</p>
-            <div class="filter-bar">
-                <input type="text" id="searchInput" placeholder="Поиск по названию..." class="search-input">
-                <div class="filter-btns" id="filterBtns">
-                    <button class="fbtn active" data-cat="all">Все (1973)</button>
-                    <button class="fbtn" data-cat="weapons">Оружие</button>
-                    <button class="fbtn" data-cat="armor">Броня</button>
-                    <button class="fbtn" data-cat="potions">Зелья</button>
-                    <button class="fbtn" data-cat="gems">Камни</button>
-                    <button class="fbtn" data-cat="scrolls">Свитки</button>
-                    <button class="fbtn" data-cat="amulets">Кулоны</button>
-                    <button class="fbtn" data-cat="chests">Сундуки</button>
-                    <button class="fbtn" data-cat="keys">Ключи</button>
-                    <button class="fbtn" data-cat="gifts">Подарки</button>
-                    <button class="fbtn" data-cat="accessories">Пуговицы/Булавки</button>
-                    <button class="fbtn" data-cat="artifacts">Артефакты</button>
-                    <button class="fbtn" data-cat="fragments">Фрагменты</button>
-                    <button class="fbtn" data-cat="stalkerus">Сталкерусы</button>
-                    <button class="fbtn" data-cat="poems">Стишки</button>
-                    <button class="fbtn" data-cat="newest">Новейшие</button>
+            <h2>Космический сет</h2>
+            <p class="section-sub">36 предметов: 6 слотов × 6 уровней (0–V). Апрель 2026.</p>
+            <div class="cosmo-grid">
+                <div class="cosmo-slot">
+                    <img src="https://i.botva.ru/images/items/2768s.jpg" alt="Космошлем" onerror="this.style.display='none'">
+                    <h4>Космошлем</h4>
+                    <span>ID 2768–2773</span>
+                    <div class="levels">0 → I → II → III → IV → V</div>
+                </div>
+                <div class="cosmo-slot">
+                    <img src="https://i.botva.ru/images/items/2774s.jpg" alt="Космобронь" onerror="this.style.display='none'">
+                    <h4>Космобронь</h4>
+                    <span>ID 2774–2779</span>
+                    <div class="levels">0 → I → II → III → IV → V</div>
+                </div>
+                <div class="cosmo-slot">
+                    <img src="https://i.botva.ru/images/items/2780s.jpg" alt="Космотык" onerror="this.style.display='none'">
+                    <h4>Космотык</h4>
+                    <span>ID 2780–2785</span>
+                    <div class="levels">0 → I → II → III → IV → V</div>
+                </div>
+                <div class="cosmo-slot">
+                    <img src="https://i.botva.ru/images/items/2786s.jpg" alt="Космоперчи" onerror="this.style.display='none'">
+                    <h4>Космоперчи</h4>
+                    <span>ID 2786–2791</span>
+                    <div class="levels">0 → I → II → III → IV → V</div>
+                </div>
+                <div class="cosmo-slot">
+                    <img src="https://i.botva.ru/images/items/2792s.jpg" alt="Космоножи" onerror="this.style.display='none'">
+                    <h4>Космоножи</h4>
+                    <span>ID 2792–2797</span>
+                    <div class="levels">0 → I → II → III → IV → V</div>
+                </div>
+                <div class="cosmo-slot">
+                    <img src="https://i.botva.ru/images/items/2798s.jpg" alt="Космощит" onerror="this.style.display='none'">
+                    <h4>Космощит</h4>
+                    <span>ID 2798–2803</span>
+                    <div class="levels">0 → I → II → III → IV → V</div>
                 </div>
             </div>
-            <div class="items-count" id="itemsCount"></div>
+        </div>
+    </section>
+
+    <!-- Stalkerus -->
+    <section class="section" id="stalkerus">
+        <div class="container">
+            <h2>Мармеладные Сталкерусы</h2>
+            <p class="section-sub">9 квантов для привлечения новых членов команды</p>
+            <div class="stalkerus-grid" id="stalkerusGrid"></div>
+            <div class="titan-box">
+                <span class="tag">Будущее обновление</span>
+                <h3>Земли Титанусов</h3>
+                <p>«Фрагментарный сундук» (ID 2766) содержит фрагменты экипировки для сталкерусов, которые помогут в исследованиях земель Титанусов. Новая локация в разработке.</p>
+                <code>popups['item_2766'] → "...для сталкерусов, которые помогут им в исследованиях земель Титанусов."</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- All New Items -->
+    <section class="section section-dark" id="items">
+        <div class="container">
+            <h2>Все новые предметы</h2>
+            <p class="section-sub">68 предметов — ID 2700–2808. Нажми на карточку для описания.</p>
+            <input type="text" id="searchInput" placeholder="Поиск..." class="search-box">
             <div class="items-grid" id="itemsGrid"></div>
-            <button class="load-more-btn" id="loadMore" style="display:none;">Показать ещё</button>
         </div>
     </section>
 
-    <!-- Tech -->
-    <section class="sec sec-alt" id="tech">
+    <!-- New Artifacts -->
+    <section class="section" id="artifacts">
         <div class="container">
-            <h2 class="sec-title">Технические находки</h2>
-            <div class="tech-grid">
-                <div class="tech-card"><h4>Стек</h4><ul><li>jQuery v1.11.3</li><li>windows-1251</li><li>CDN: i.botva.ru</li><li>Minify (Google Code)</li></ul></div>
-                <div class="tech-card"><h4>JS-файлы</h4><ul><li>outerjs (v=1204) — 618 КБ</li><li>pp.av2.js (v=1204) — 1.78 МБ</li></ul></div>
-                <div class="tech-card"><h4>Валюты</h4><ul><li>Золото</li><li>Кристаллы</li><li>Зелень</li><li>Пирашки</li><li>Пиастры</li></ul></div>
-                <div class="tech-card"><h4>Аналитика</h4><ul><li>Google Tag Manager</li><li>Яндекс.Метрика</li><li>LiveInternet</li><li>VK Pixel</li></ul></div>
-                <div class="tech-card"><h4>Авторизация</h4><ul><li>VK OAuth2</li><li>Facebook Login</li><li>Twitter Login</li><li>Destiny ID</li></ul></div>
-                <div class="tech-card"><h4>Новые артефакты</h4><ul><li>Ревун (#2804) — -30% хар. в бодалке</li><li>Вскрывашка (#2805) — -30% на арене</li><li>Вонючка (#2806) — -30% мощь зверушки</li><li>Плюмаж (#2807) — +75% очков арены</li><li>Пика точёная (#2808)</li></ul></div>
-            </div>
+            <h2>Новые артефакты</h2>
+            <div class="artifacts-grid" id="artifactsGrid"></div>
         </div>
     </section>
 
     <!-- Modal -->
-    <div class="modal-overlay" id="modal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">&times;</button>
-            <div class="modal-img" id="modalImg"></div>
+    <div class="modal-bg" id="modal">
+        <div class="modal">
+            <button class="modal-x" id="modalClose">&times;</button>
+            <div id="modalImg" class="modal-img"></div>
             <h3 id="modalTitle"></h3>
-            <p class="modal-id" id="modalId"></p>
-            <p class="modal-desc" id="modalDesc"></p>
+            <span class="modal-id" id="modalId"></span>
+            <p id="modalDesc" class="modal-desc"></p>
         </div>
     </div>
 
     <footer class="footer">
-        <p>Исследователь Ботва Онлайн &bull; Данные из исходников avatar.botva.ru и g1.botva.ru</p>
-        <p>&copy; Destiny.Games 2008-2026</p>
+        <p>Данные из исходников g1.botva.ru и avatar.botva.ru &bull; &copy; Destiny.Games 2008-2026</p>
     </footer>
 
     <script src="items_data.js"></script>
