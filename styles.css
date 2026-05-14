@@ -42,13 +42,30 @@ img{max-width:100%;display:block}
 .tl-body p{font-size:.9rem;color:#8b949e}
 
 /* COSMO */
-.cosmo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
-.cosmo-slot{background:#0d1117;border:1px solid #21262d;border-radius:12px;padding:20px 16px;text-align:center;transition:border-color .2s}
-.cosmo-slot:hover{border-color:#30363d}
-.cosmo-slot img{width:64px;height:64px;margin:0 auto 10px;border-radius:8px}
-.cosmo-slot h4{font-size:.9rem;font-weight:600;color:#f0f6fc;margin-bottom:4px}
-.cosmo-slot span{font-size:.7rem;color:#484f58;font-family:monospace}
-.levels{font-size:.7rem;color:#58a6ff;margin-top:6px;font-weight:500}
+.cosmo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.cosmo-slot{background:#0d1117;border:1px solid #21262d;border-radius:12px;padding:20px 16px;text-align:center;transition:border-color .2s;border-top:3px solid #30363d}
+.cosmo-slot:hover{border-color:#484f58}
+.cosmo-slot img{width:64px;height:64px;margin:0 auto 10px;border-radius:8px;border:2px solid #21262d}
+.cosmo-slot h4{font-size:.95rem;font-weight:700;color:#f0f6fc;margin-bottom:4px}
+.cosmo-stat{font-size:.75rem;color:#8b949e;margin-bottom:4px}
+.cosmo-bonus{font-size:.75rem;color:#7ee787;font-weight:600;margin-bottom:8px}
+.cosmo-ids{font-size:.65rem;color:#484f58;font-family:monospace;display:block;margin-top:8px}
+.levels{display:flex;justify-content:center;gap:4px;margin-top:4px}
+.lv{display:inline-block;width:26px;height:22px;line-height:22px;border-radius:4px;font-size:.65rem;font-weight:700;text-align:center}
+.lv0{background:#21262d;color:#8b949e}
+.lv1{background:#0e4429;color:#3fb950}
+.lv2{background:#0c2d6b;color:#58a6ff}
+.lv3{background:#3d1d6e;color:#bc8cff}
+.lv4{background:#5a2d0c;color:#f0883e}
+.lv5{background:#5a0c20;color:#ff7b72;border:1px solid #da363688}
+.c-helm{border-top-color:#58a6ff}.c-helm img{border-color:#58a6ff44}
+.c-armor{border-top-color:#3fb950}.c-armor img{border-color:#3fb95044}
+.c-weap{border-top-color:#f0883e}.c-weap img{border-color:#f0883e44}
+.c-gloves{border-top-color:#bc8cff}.c-gloves img{border-color:#bc8cff44}
+.c-boots{border-top-color:#ff7b72}.c-boots img{border-color:#ff7b7244}
+.c-shield{border-top-color:#d2a8ff}.c-shield img{border-color:#d2a8ff44}
+.cosmo-set-bonus{margin-top:20px;padding:14px 18px;background:#0d1117;border:1px solid #3fb95044;border-left:3px solid #3fb950;border-radius:8px;font-size:.9rem;color:#8b949e}
+.cosmo-set-bonus strong{color:#3fb950}
 
 /* STALKERUS */
 .stalkerus-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:32px}
