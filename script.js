@@ -71,9 +71,9 @@ const guildsGrid=document.getElementById('guildsGrid');
 guilds.forEach(g=>{
   const card=document.createElement('div');
   card.className='guild-card'+(g.battle?' battle':'');
-  card.innerHTML=`<img src="https://i.botva.ru/i/guilds/Guild_${g.id}s.png" alt="${g.name}" 
+  card.innerHTML=`<img src="https://i.botva.ru/images/guilds/Guild_${g.id}s.png" alt="${g.name}" 
     onerror="this.style.display='none'"><h4>${g.name}</h4><p>${g.desc}</p>`;
-  card.onclick=()=>showModal(g.name,`guild_${g.id}`,g.desc,`https://i.botva.ru/i/guilds/Guild_${g.id}s.png`);
+  card.onclick=()=>showModal(g.name,`guild_${g.id}`,g.desc,`https://i.botva.ru/images/guilds/Guild_${g.id}s.png`);
   guildsGrid.appendChild(card);
 });
 
@@ -93,7 +93,7 @@ const petsGrid=document.getElementById('petsGrid');
 pets.forEach(p=>{
   const card=document.createElement('div');
   card.className='pet-card'+(p.r?' '+p.r:'');
-  const img=`https://i.botva.ru/i/items/Pet_${p.id}s.jpg`;
+  const img=`https://i.botva.ru/images/items/Pet_${p.id}s.jpg`;
   card.innerHTML=`<img src="${img}" alt="${p.name}" onerror="this.style.display='none'">
     <h4>${p.name}</h4><span class="pet-id">#${p.id}</span>`;
   card.onclick=()=>showModal(p.name,`pet_${p.id}`,`Питомец (Летун) #${p.id}`,img);
@@ -122,8 +122,8 @@ function renderItems(reset){
   batch.forEach(item=>{
     const card=document.createElement('div');
     card.className='item-card';
-    const imgHtml=item.img?`<img src="${item.img}" alt="${item.n}" onerror="this.src='https://i.botva.ru/i/global/icon/promo200.png'">`
-      :`<img src="https://i.botva.ru/i/global/icon/promo200.png" alt="">`;
+    const imgHtml=item.img?`<img src="${item.img}" alt="${item.n}" onerror="this.src='https://g1.botva.ru/i/global/icon/promo200.png'">`
+      :`<img src="https://g1.botva.ru/i/global/icon/promo200.png" alt="">`;
     card.innerHTML=`${imgHtml}<div><div class="iname">${item.n}</div><div class="iid">item_${item.id}</div></div>`;
     card.onclick=()=>showModal(item.n,`item_${item.id}`,item.d,item.img);
     grid.appendChild(card);
