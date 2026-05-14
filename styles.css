@@ -41,6 +41,20 @@ img{max-width:100%;display:block}
 .tl-body h3{font-size:1rem;font-weight:600;color:#f0f6fc;margin-bottom:4px}
 .tl-body p{font-size:.9rem;color:#8b949e}
 
+/* COLOR PICKER */
+.color-picker{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:20px;padding:12px 16px;background:#0d1117;border:1px solid #21262d;border-radius:10px}
+.cp-label{font-size:.85rem;font-weight:600;color:#8b949e;margin-right:4px}
+.cp-btn{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;position:relative}
+.cp-btn:hover{transform:scale(1.2)}
+.cp-btn.active{border-color:#f0f6fc;transform:scale(1.15)}
+.cp-btn[data-color=""]{background:#21262d;color:#8b949e;font-size:.7rem;line-height:24px;text-align:center}
+.cp-custom{width:28px;height:28px;border:2px solid #30363d;border-radius:50%;cursor:pointer;padding:0;background:none;-webkit-appearance:none;appearance:none}
+.cp-custom::-webkit-color-swatch-wrapper{padding:0}
+.cp-custom::-webkit-color-swatch{border:none;border-radius:50%}
+.cosmo-slot.colored{transition:border-color .3s,box-shadow .3s}
+.cosmo-slot.colored img{transition:filter .3s}
+.item-card.colored,.art-card.colored,.stalk-card.colored{transition:border-color .3s,box-shadow .3s}
+
 /* COSMO */
 .cosmo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
 .cosmo-slot{background:#0d1117;border:1px solid #21262d;border-radius:12px;padding:20px 16px;text-align:center;transition:border-color .2s;border-top:3px solid #30363d}
