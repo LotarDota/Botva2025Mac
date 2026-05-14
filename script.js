@@ -1,239 +1,162 @@
-// ========== PARTICLE BACKGROUND ==========
+// ========== PARTICLES ==========
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
-let particles = [];
-const PARTICLE_COUNT = 60;
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+resize(); addEventListener('resize',resize);
+const pts=[];
+for(let i=0;i<50;i++) pts.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+  s:Math.random()*2+.5,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,
+  o:Math.random()*.3+.1,h:Math.random()>.5?45:220});
+(function anim(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  pts.forEach(p=>{p.x+=p.dx;p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width||p.y<0||p.y>canvas.height){p.x=Math.random()*canvas.width;p.y=Math.random()*canvas.height}
+    ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle=`hsla(${p.h},70%,60%,${p.o})`;ctx.fill()});
+  requestAnimationFrame(anim)
+})();
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+// ========== COUNTER ==========
+let started=false;
+const statsObs=new IntersectionObserver(e=>{
+  if(e[0].isIntersecting&&!started){started=true;
+    document.querySelectorAll('.stat-n').forEach(el=>{
+      const t=+el.dataset.count;let c=0;const step=t/(2000/16);
+      const iv=setInterval(()=>{c+=step;if(c>=t){el.textContent=t.toLocaleString();clearInterval(iv)}
+        else el.textContent=Math.floor(c).toLocaleString()},16)})}
+},{threshold:.3});
+statsObs.observe(document.querySelector('.hero-stats'));
 
-class Particle {
-    constructor() {
-        this.reset();
-    }
-    reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-        this.opacity = Math.random() * 0.4 + 0.1;
-        this.hue = Math.random() > 0.5 ? 45 : 30;
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-            this.reset();
-        }
-    }
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.opacity})`;
-        ctx.fill();
-    }
-}
-
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(new Particle());
-}
-
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// ========== COUNTER ANIMATION ==========
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-num');
-    counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-count'));
-        const duration = 2000;
-        const step = target / (duration / 16);
-        let current = 0;
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                counter.textContent = target.toLocaleString();
-                clearInterval(timer);
-            } else {
-                counter.textContent = Math.floor(current).toLocaleString();
-            }
-        }, 16);
-    });
-}
-
-// ========== SCROLL ANIMATIONS (AOS-like) ==========
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const delay = parseInt(entry.target.getAttribute('data-delay') || 0);
-            setTimeout(() => {
-                entry.target.classList.add('aos-animate');
-            }, delay);
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
-
-// ========== STICKY NAV ==========
-const nav = document.getElementById('mainNav');
-const hero = document.getElementById('hero');
-
-window.addEventListener('scroll', () => {
-    if (window.scrollY > hero.offsetHeight - 100) {
-        nav.classList.add('visible');
-    } else {
-        nav.classList.remove('visible');
-    }
-});
-
-// Active nav link
-const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.nav-links a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        if (window.scrollY >= sectionTop) {
-            current = section.getAttribute('id');
-        }
-    });
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// ========== TRIGGER COUNTERS ON SCROLL ==========
-let countersStarted = false;
-const heroObserver = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && !countersStarted) {
-        countersStarted = true;
-        animateCounters();
-    }
-}, { threshold: 0.3 });
-heroObserver.observe(document.querySelector('.hero-stats'));
-
-// ========== NEWEST ITEMS DATA ==========
-const newestItems = [
-    { id: 2700, name: "Майский мимик", img: "2700s.jpg" },
-    { id: 2701, name: "Хитрый осьминог", img: "2701s.jpg" },
-    { id: 2702, name: "Затонувший сундук", img: "2541s.jpg" },
-    { id: 2703, name: "Меха-крылья", img: "2703s.jpg" },
-    { id: 2704, name: "Меха-пружины", img: "2704s.jpg" },
-    { id: 2705, name: "Треуголка капитана Клюва", img: "2705s.jpg" },
-    { id: 2706, name: "Сундук предков", img: "2706s.jpg" },
-    { id: 2707, name: "Дьявольский шелом", img: "2707s.jpg" },
-    { id: 2708, name: "Глубинный кромсатель", img: "2708s.jpg" },
-    { id: 2709, name: "Удушающие хваты", img: "2709s.jpg" },
-    { id: 2710, name: "Доспех Морского дьявола", img: "2710s.jpg" },
-    { id: 2711, name: "Фрагмент Дьявольского шелома", img: "2711s.jpg" },
-    { id: 2712, name: "Фрагмент Глубинного кромсателя", img: "2712s.jpg" },
-    { id: 2713, name: "Фрагмент Удушающих хватов", img: "2713s.jpg" },
-    { id: 2714, name: "Фрагмент доспеха Морского дьявола", img: "2714s.jpg" },
-    { id: 2715, name: "Мститель", img: "2715s.jpg" },
-    { id: 2716, name: "Костяной барабан", img: "2716s.jpg" },
-    { id: 2717, name: "Восковые мелки", img: "2717s.jpg" },
-    { id: 2718, name: "Блошиный кристалл", img: "2718s.jpg" },
-    { id: 2719, name: "Блошиный сундук", img: "2621s.jpg" },
-    { id: 2720, name: "Редкий сундук", img: "2720s.jpg" },
-    { id: 2721, name: "Эпический сундук", img: "2721s.jpg" },
-    { id: 2722, name: "Легендарный сундук", img: "2722s.jpg" },
-    { id: 2723, name: "Чертовы рожки", img: "2723s.jpg" },
-    { id: 2724, name: "Чертов хвостик", img: "2724s.jpg" },
-    { id: 2725, name: "Чертова молотилка", img: "2725s.jpg" },
-    { id: 2728, name: "Звездокамень", img: "2728s.jpg" },
-    { id: 2729, name: "Золотая рыбка", img: "2729s.jpg" },
-    { id: 2730, name: "Подарок на 17-летие Ботвы", img: "2730s.jpg" },
-    { id: 2731, name: "Кусочек праздничной аватарки", img: "2731s.jpg" },
-    { id: 2733, name: "Заячий шарф", img: "2733s.jpg" },
-    { id: 2734, name: "Ноябрьский ларец", img: "2734s.jpg" },
-    { id: 2736, name: "Снежный големчик", img: "2736s.jpg" },
-    { id: 2737, name: "Колдунская сосучка", img: "2737s.jpg" },
-    { id: 2738, name: "Сабля Морозуса", img: "2738s.jpg" },
-    { id: 2739, name: "Икарусов мешочек", img: "2739s.jpg" },
-    { id: 2740, name: "Снежная калимба", img: "2740s.jpg" },
-    { id: 2741, name: "Мандавилка", img: "2741s.jpg" },
-    { id: 2742, name: "Стишок «Задорная колядка»", img: "2742s.jpg" },
-    { id: 2743, name: "Стишок «Веселая прибаутка»", img: "2743s.jpg" },
-    { id: 2744, name: "Стишок «Забавная шутка»", img: "2744s.jpg" },
-    { id: 2745, name: "Стишок «Проникновенная ода»", img: "2745s.jpg" },
-    { id: 2746, name: "Стишок «Заманчивая песня»", img: "2746s.jpg" },
-    { id: 2747, name: "Стишок «Задумчивый сонет»", img: "2747s.jpg" },
-    { id: 2748, name: "Стишок «Мудрое двустишие»", img: "2748s.jpg" },
-    { id: 2749, name: "Стишок «Чудная загадка»", img: "2749s.jpg" },
-    { id: 2750, name: "Золотой Стих Клеверландии", img: "2750s.jpg" },
-    { id: 2751, name: "Глазастая сударыня", img: "2751s.jpg" },
-    { id: 2752, name: "Кислый Эолан", img: "2752s.jpg" },
-    { id: 2753, name: "Вишневый Люмион", img: "2753s.jpg" },
-    { id: 2754, name: "Лимонный Фростиан", img: "2754s.jpg" },
-    { id: 2755, name: "Мятный Сильван", img: "2755s.jpg" },
-    { id: 2756, name: "Малиновый Эльрион", img: "2756s.jpg" },
-    { id: 2757, name: "Апельсиновый Нивиан", img: "2757s.jpg" },
-    { id: 2758, name: "Ежевичный Корвиан", img: "2758s.jpg" },
-    { id: 2759, name: "Голубичный Велиан", img: "2759s.jpg" },
-    { id: 2760, name: "Радужный Стультан", img: "2760s.jpg" },
-    { id: 2761, name: "Свечи желаний", img: "2761s.jpg" },
-    { id: 2763, name: "Зимний мимик", img: "2763s.jpg" },
-    { id: 2765, name: "Квантовый сундук", img: "2765s.jpg" },
-    { id: 2766, name: "Фрагментарный сундук", img: "2766s.jpg" },
-    { id: 2767, name: "УраНовый сундук", img: "2767s.jpg" },
-    { id: 2804, name: "Ревун", img: "2804s.jpg" },
-    { id: 2805, name: "Вскрывашка консерв", img: "2805s.jpg" },
-    { id: 2806, name: "Вонючка", img: "2806s.jpg" },
-    { id: 2807, name: "Плюмаж достоинства", img: "2807s.jpg" },
-    { id: 2808, name: "Пика точёная", img: "2808s.jpg" },
-];
-
-// ========== RENDER ITEMS ==========
-const itemsGrid = document.getElementById('itemsGrid');
-if (itemsGrid) {
-    newestItems.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'item-card';
-        card.setAttribute('data-aos', 'fade-up');
-        card.innerHTML = `
-            <img src="https://i.botva.ru/i/items/${item.img}" alt="${item.name}" 
-                 onerror="this.src='https://i.botva.ru/i/global/icon/promo200.png'">
-            <div>
-                <div class="item-name">${item.name}</div>
-                <div class="item-num">item_${item.id}</div>
-            </div>
-        `;
-        itemsGrid.appendChild(card);
-    });
-
-    // Re-observe dynamically added items
-    itemsGrid.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
-}
+// ========== NAV ==========
+const nav=document.getElementById('topnav');
+const hero=document.getElementById('hero');
+addEventListener('scroll',()=>{nav.classList.toggle('show',scrollY>hero.offsetHeight-100)});
+document.getElementById('burger').onclick=()=>document.getElementById('navLinks').classList.toggle('open');
 
 // ========== SMOOTH SCROLL ==========
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', e => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.onclick=e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});document.getElementById('navLinks').classList.remove('open')}});
+
+// ========== MODAL ==========
+const modal=document.getElementById('modal');
+const modalClose=document.getElementById('modalClose');
+function showModal(name,id,desc,imgUrl){
+  document.getElementById('modalTitle').textContent=name;
+  document.getElementById('modalId').textContent=id;
+  document.getElementById('modalDesc').textContent=desc||'Описание не найдено';
+  const imgDiv=document.getElementById('modalImg');
+  if(imgUrl){imgDiv.innerHTML=`<img src="${imgUrl}" alt="${name}" onerror="this.style.display='none'">`}
+  else{imgDiv.innerHTML=''}
+  modal.classList.add('active');
+}
+modalClose.onclick=()=>modal.classList.remove('active');
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove('active')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('active')});
+
+// ========== GUILDS ==========
+const guilds=[
+  {id:1,name:'Толстосумы',desc:'Торговая гильдия с льготами на аукционе. Уровень: 20+',battle:false},
+  {id:2,name:'Железячники',desc:'Гильдия кузнецов для мастеров ковки. Уровень: 20+',battle:false},
+  {id:3,name:'Шахтеры',desc:'Любители подземных работ и кристаллов. Уровень: 20+',battle:false},
+  {id:4,name:'Работяги',desc:'Гильдия фермеров для любителей природы. Уровень: 20+',battle:false},
+  {id:5,name:'Пернатый спецназ',desc:'Боевая гильдия',battle:true},
+  {id:6,name:'Теневоды',desc:'Боевая гильдия',battle:true},
+  {id:7,name:'Клыкуны',desc:'Боевая гильдия',battle:true},
+  {id:8,name:'Краснокожие',desc:'Боевая гильдия',battle:true},
+  {id:9,name:'Травники',desc:'Гильдия алхимиков. Уровень: 20+',battle:false},
+  {id:10,name:'Летчики',desc:'Гильдия укротителей летунов. Уровень: 25+',battle:false},
+  {id:11,name:'Устрашатели',desc:'Орден по изведению страшилок. Уровень: 25+',battle:false}
+];
+const guildsGrid=document.getElementById('guildsGrid');
+guilds.forEach(g=>{
+  const card=document.createElement('div');
+  card.className='guild-card'+(g.battle?' battle':'');
+  card.innerHTML=`<img src="https://i.botva.ru/i/guilds/Guild_${g.id}s.png" alt="${g.name}" 
+    onerror="this.style.display='none'"><h4>${g.name}</h4><p>${g.desc}</p>`;
+  card.onclick=()=>showModal(g.name,`guild_${g.id}`,g.desc,`https://i.botva.ru/i/guilds/Guild_${g.id}s.png`);
+  guildsGrid.appendChild(card);
 });
+
+// ========== PETS ==========
+const pets=[
+  {id:1,name:'Шнырк',r:''},{id:2,name:'Царапка',r:''},{id:3,name:'Бобруйко',r:''},
+  {id:4,name:'Спиношип',r:''},{id:5,name:'Енотка',r:''},{id:6,name:'Броневоз',r:''},
+  {id:7,name:'Червячелло',r:''},{id:8,name:'Красный Червячелло',r:'rare'},
+  {id:9,name:'Лисистричка',r:''},{id:10,name:'Красный Червячелло II',r:'rare'},
+  {id:11,name:'Феникс',r:'legendary'},{id:12,name:'Обезьян',r:''},
+  {id:13,name:'Хамелеоша',r:''},{id:14,name:'Хамелеоша II',r:''},{id:15,name:'Хамелеоша III',r:''},
+  {id:16,name:'Дух древнего Червячелло',r:'epic'},
+  {id:18,name:'Серый Мамонтоша',r:'epic'},{id:19,name:'Белый Мамонтоша',r:'epic'},
+  {id:20,name:'Чёрный Мамонтоша',r:'legendary'},{id:21,name:'Красный Мамонтоша',r:'legendary'}
+];
+const petsGrid=document.getElementById('petsGrid');
+pets.forEach(p=>{
+  const card=document.createElement('div');
+  card.className='pet-card'+(p.r?' '+p.r:'');
+  const img=`https://i.botva.ru/i/items/Pet_${p.id}s.jpg`;
+  card.innerHTML=`<img src="${img}" alt="${p.name}" onerror="this.style.display='none'">
+    <h4>${p.name}</h4><span class="pet-id">#${p.id}</span>`;
+  card.onclick=()=>showModal(p.name,`pet_${p.id}`,`Питомец (Летун) #${p.id}`,img);
+  petsGrid.appendChild(card);
+});
+
+// ========== ALL ITEMS ==========
+const ITEMS_PER_PAGE=100;
+let currentCat='all';
+let searchQuery='';
+let displayedCount=0;
+
+function getFiltered(){
+  let list=ALL_ITEMS;
+  if(currentCat!=='all') list=list.filter(i=>i.cat===currentCat);
+  if(searchQuery) list=list.filter(i=>i.n.toLowerCase().includes(searchQuery));
+  return list;
+}
+
+function renderItems(reset){
+  const grid=document.getElementById('itemsGrid');
+  const btn=document.getElementById('loadMore');
+  if(reset){grid.innerHTML='';displayedCount=0}
+  const filtered=getFiltered();
+  const batch=filtered.slice(displayedCount,displayedCount+ITEMS_PER_PAGE);
+  batch.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='item-card';
+    const imgHtml=item.img?`<img src="${item.img}" alt="${item.n}" onerror="this.src='https://i.botva.ru/i/global/icon/promo200.png'">`
+      :`<img src="https://i.botva.ru/i/global/icon/promo200.png" alt="">`;
+    card.innerHTML=`${imgHtml}<div><div class="iname">${item.n}</div><div class="iid">item_${item.id}</div></div>`;
+    card.onclick=()=>showModal(item.n,`item_${item.id}`,item.d,item.img);
+    grid.appendChild(card);
+  });
+  displayedCount+=batch.length;
+  document.getElementById('itemsCount').textContent=`Показано ${displayedCount} из ${filtered.length}`;
+  btn.style.display=displayedCount<filtered.length?'block':'none';
+}
+
+// Init items
+renderItems(true);
+
+// Load more
+document.getElementById('loadMore').onclick=()=>renderItems(false);
+
+// Search
+let searchTimer;
+document.getElementById('searchInput').oninput=e=>{
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(()=>{searchQuery=e.target.value.toLowerCase().trim();renderItems(true)},300);
+};
+
+// Filter buttons
+document.getElementById('filterBtns').onclick=e=>{
+  if(!e.target.classList.contains('fbtn'))return;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  currentCat=e.target.dataset.cat;
+  renderItems(true);
+};
+
+// ========== SCROLL ANIMATIONS ==========
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')})
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-aos]').forEach(el=>obs.observe(el));

@@ -9,521 +9,223 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Animated particle background -->
     <canvas id="particles"></canvas>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <header class="hero" id="hero">
-        <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="logo-glow">
                 <img src="https://i.botva.ru/i/global/icon/promo200.png" alt="Ботва Онлайн" class="hero-logo">
             </div>
-            <h1 class="hero-title">
-                <span class="title-line">БОТВА</span>
-                <span class="title-line accent">ОНЛАЙН</span>
-            </h1>
-            <p class="hero-subtitle">Исследователь игрового мира &bull; Свежие находки из исходников</p>
+            <h1 class="hero-title"><span class="t1">БОТВА</span><span class="t2">ОНЛАЙН</span></h1>
+            <p class="hero-sub">Исследователь игрового мира &bull; Все предметы, арты и секреты из исходников</p>
             <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-num" data-count="5">0</span>
-                    <span class="stat-label">Серверов</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num" data-count="2808">0</span>
-                    <span class="stat-label">Предметов</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num" data-count="11">0</span>
-                    <span class="stat-label">Гильдий</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-num" data-count="21">0</span>
-                    <span class="stat-label">Питомцев</span>
-                </div>
+                <div class="stat"><span class="stat-n" data-count="1973">0</span><span class="stat-l">Предметов</span></div>
+                <div class="stat"><span class="stat-n" data-count="5">0</span><span class="stat-l">Серверов</span></div>
+                <div class="stat"><span class="stat-n" data-count="11">0</span><span class="stat-l">Гильдий</span></div>
+                <div class="stat"><span class="stat-n" data-count="21">0</span><span class="stat-l">Питомцев</span></div>
             </div>
-            <a href="#servers" class="scroll-btn">
-                <span>Исследовать</span>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            </a>
+            <a href="#nav-sec" class="scroll-btn">Исследовать &#8595;</a>
         </div>
     </header>
 
-    <!-- Navigation -->
-    <nav class="main-nav" id="mainNav">
-        <div class="nav-inner">
-            <a href="#hero" class="nav-logo">
-                <img src="https://i.botva.ru/i/global/icon/promo200.png" alt="Ботва">
-            </a>
-            <div class="nav-links">
+    <!-- Nav -->
+    <nav class="topnav" id="topnav">
+        <div class="nav-wrap">
+            <a href="#hero" class="nav-brand"><img src="https://i.botva.ru/i/global/icon/promo200.png" alt="">Ботва</a>
+            <div class="nav-links" id="navLinks">
                 <a href="#servers">Серверы</a>
                 <a href="#races">Расы</a>
                 <a href="#guilds">Гильдии</a>
                 <a href="#pets">Питомцы</a>
-                <a href="#cosmo">Космо-сет</a>
                 <a href="#titanuses">Титанусы</a>
-                <a href="#newest">Новинки</a>
-                <a href="#artifacts">Артефакты</a>
-                <a href="#tech">Технологии</a>
+                <a href="#all-items">Все предметы</a>
+                <a href="#tech">Техинфо</a>
             </div>
+            <button class="burger" id="burger">&#9776;</button>
         </div>
     </nav>
+    <div id="nav-sec"></div>
 
-    <!-- Servers Section -->
-    <section class="section section-dark" id="servers">
+    <!-- Servers -->
+    <section class="sec" id="servers">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#9881;</span>
-                Серверы Ботвинии
-            </h2>
-            <p class="section-desc" data-aos="fade-up">5 серверов обнаружены в исходном коде — каждый со своим характером</p>
-            <div class="servers-grid">
-                <div class="server-card" data-aos="zoom-in" data-delay="0">
-                    <div class="server-id">1</div>
-                    <h3>Адын</h3>
-                    <p class="server-url">g1.botva.ru</p>
-                    <div class="server-status online">Онлайн</div>
-                </div>
-                <div class="server-card" data-aos="zoom-in" data-delay="100">
-                    <div class="server-id">2</div>
-                    <h3>Дыдва</h3>
-                    <p class="server-url">g2.botva.ru</p>
-                    <div class="server-status online">Онлайн</div>
-                </div>
-                <div class="server-card" data-aos="zoom-in" data-delay="200">
-                    <div class="server-id">3</div>
-                    <h3>Тытра</h3>
-                    <p class="server-url">g3.botva.ru</p>
-                    <div class="server-status online">Онлайн</div>
-                </div>
-                <div class="server-card turbo" data-aos="zoom-in" data-delay="300">
-                    <div class="server-id">4</div>
-                    <h3>Turbo</h3>
-                    <p class="server-url">turbo.botva.ru</p>
-                    <div class="server-status online">Онлайн</div>
-                </div>
-                <div class="server-card avatar" data-aos="zoom-in" data-delay="400">
-                    <div class="server-id">101</div>
-                    <h3>Аватар</h3>
-                    <p class="server-url">avatar.botva.ru</p>
-                    <div class="server-status online">Онлайн</div>
-                </div>
+            <h2 class="sec-title">Серверы Ботвинии</h2>
+            <div class="servers-row">
+                <div class="srv"><div class="srv-id">1</div><h3>Адын</h3><span>g1.botva.ru</span><div class="badge green">Online</div></div>
+                <div class="srv"><div class="srv-id">2</div><h3>Дыдва</h3><span>g2.botva.ru</span><div class="badge green">Online</div></div>
+                <div class="srv"><div class="srv-id">3</div><h3>Тытра</h3><span>g3.botva.ru</span><div class="badge green">Online</div></div>
+                <div class="srv turbo"><div class="srv-id">4</div><h3>Turbo</h3><span>turbo.botva.ru</span><div class="badge blue">Online</div></div>
+                <div class="srv avatar-srv"><div class="srv-id">101</div><h3>Аватар</h3><span>avatar.botva.ru</span><div class="badge purple">Online</div></div>
             </div>
         </div>
     </section>
 
-    <!-- Races Section -->
-    <section class="section" id="races">
+    <!-- Races -->
+    <section class="sec sec-alt" id="races">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#9876;</span>
-                Расы Ботвинии
-            </h2>
-            <p class="section-desc" data-aos="fade-up">Две великие расы сражаются за господство</p>
-            <div class="races-grid">
-                <div class="race-card svintus" data-aos="fade-right">
-                    <div class="race-banner">
-                        <div class="race-avatars">
-                            <img src="https://i.botva.ru/images/packs/beer/ava_beer_gs.jpg" alt="Свинтус" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_gs1.jpg" alt="Свинтус пират" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_gs.jpg" alt="Свинтус хэллоуин" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_gs.jpg" alt="Свинтус аватар" class="race-ava">
-                        </div>
-                        <div class="race-avatars row2">
-                            <img src="https://i.botva.ru/images/packs/beer/ava_beer_bs.jpg" alt="Свинтус м" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_bs1.jpg" alt="Свинтус пират м" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_bs.jpg" alt="Свинтус хэллоуин м" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_bs.jpg" alt="Свинтус аватар м" class="race-ava">
-                        </div>
-                    </div>
+            <h2 class="sec-title">Расы Ботвинии</h2>
+            <p class="sec-desc">Две великие расы — 4 набора аватарок у каждой</p>
+            <div class="races">
+                <div class="race-card race-pig">
                     <h3>Свинтусы</h3>
-                    <p>Коварные и хитрые свиньи Ботвинии. Мастера интриг и любители капусты. Ощути, что значит быть настоящей свиньей!</p>
-                </div>
-                <div class="race-card barantus" data-aos="fade-left">
-                    <div class="race-banner">
-                        <div class="race-avatars">
-                            <img src="https://i.botva.ru/images/packs/beer/ava_beer_gb.jpg" alt="Барантус" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_gb1.jpg" alt="Барантус пират" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_gb.jpg" alt="Барантус хэллоуин" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_gb.jpg" alt="Барантус аватар" class="race-ava">
-                        </div>
-                        <div class="race-avatars row2">
-                            <img src="https://i.botva.ru/images/packs/beer/ava_beer_bb.jpg" alt="Барантус м" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_bb1.jpg" alt="Барантус пират м" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_bb.jpg" alt="Барантус хэллоуин м" class="race-ava">
-                            <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_bb.jpg" alt="Барантус аватар м" class="race-ava">
-                        </div>
+                    <p>Коварные и хитрые свиньи. Мастера интриг и любители капусты.</p>
+                    <div class="ava-row">
+                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_gs.jpg" alt="Свинтус beer">
+                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_gs1.jpg" alt="Свинтус pirate">
+                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_gs.jpg" alt="Свинтус halloween">
+                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_gs.jpg" alt="Свинтус avatar">
                     </div>
+                    <div class="ava-row">
+                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_bs.jpg" alt="Свинтус м beer">
+                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_bs1.jpg" alt="Свинтус м pirate">
+                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_bs.jpg" alt="Свинтус м halloween">
+                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_bs.jpg" alt="Свинтус м avatar">
+                    </div>
+                </div>
+                <div class="race-card race-ram">
                     <h3>Барантусы</h3>
-                    <p>Упрямые и бесстрашные бараны. Настоящие воины с железными рогами и каменными лбами. Стань настоящим бараном!</p>
+                    <p>Упрямые и бесстрашные бараны. Воины с железными рогами.</p>
+                    <div class="ava-row">
+                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_gb.jpg" alt="Барантус beer">
+                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_gb1.jpg" alt="Барантус pirate">
+                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_gb.jpg" alt="Барантус halloween">
+                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_gb.jpg" alt="Барантус avatar">
+                    </div>
+                    <div class="ava-row">
+                        <img src="https://i.botva.ru/images/packs/beer/ava_beer_bb.jpg" alt="Барантус м beer">
+                        <img src="https://i.botva.ru/images/packs/pirate/ava_pirat_bb1.jpg" alt="Барантус м pirate">
+                        <img src="https://i.botva.ru/images/packs/avaHALLOWEEN/ava_helloween_bb.jpg" alt="Барантус м halloween">
+                        <img src="https://i.botva.ru/images/packs/avaAVATAR/ava_avatar_bb.jpg" alt="Барантус м avatar">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Guilds Section -->
-    <section class="section section-dark" id="guilds">
+    <!-- Guilds -->
+    <section class="sec" id="guilds">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#9873;</span>
-                Гильдии
-            </h2>
-            <p class="section-desc" data-aos="fade-up">11 гильдий найдены в коде игры — от торговцев до устрашателей</p>
-            <div class="guilds-grid">
-                <div class="guild-card" data-aos="flip-left" data-delay="0">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_1s.png" alt="Толстосумы"></div>
-                    <h4>Толстосумы</h4>
-                    <p>Торговая гильдия с льготами на аукционе. Уровень: 20+</p>
-                </div>
-                <div class="guild-card" data-aos="flip-left" data-delay="50">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_2s.png" alt="Железячники"></div>
-                    <h4>Железячники</h4>
-                    <p>Гильдия кузнецов для мастеров ковки. Уровень: 20+</p>
-                </div>
-                <div class="guild-card" data-aos="flip-left" data-delay="100">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_3s.png" alt="Шахтеры"></div>
-                    <h4>Шахтеры</h4>
-                    <p>Любители подземных работ и кристаллов. Уровень: 20+</p>
-                </div>
-                <div class="guild-card" data-aos="flip-left" data-delay="150">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_4s.png" alt="Работяги"></div>
-                    <h4>Работяги</h4>
-                    <p>Гильдия фермеров для любителей природы. Уровень: 20+</p>
-                </div>
-                <div class="guild-card special" data-aos="flip-left" data-delay="200">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_5s.png" alt="Пернатый спецназ"></div>
-                    <h4>Пернатый спецназ</h4>
-                    <p>Боевая гильдия</p>
-                </div>
-                <div class="guild-card special" data-aos="flip-left" data-delay="250">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_6s.png" alt="Теневоды"></div>
-                    <h4>Теневоды</h4>
-                    <p>Боевая гильдия</p>
-                </div>
-                <div class="guild-card special" data-aos="flip-left" data-delay="300">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_7s.png" alt="Клыкуны"></div>
-                    <h4>Клыкуны</h4>
-                    <p>Боевая гильдия</p>
-                </div>
-                <div class="guild-card special" data-aos="flip-left" data-delay="350">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_8s.png" alt="Краснокожие"></div>
-                    <h4>Краснокожие</h4>
-                    <p>Боевая гильдия</p>
-                </div>
-                <div class="guild-card" data-aos="flip-left" data-delay="400">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_9s.png" alt="Травники"></div>
-                    <h4>Травники</h4>
-                    <p>Гильдия алхимиков. Уровень: 20+</p>
-                </div>
-                <div class="guild-card" data-aos="flip-left" data-delay="450">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_10s.png" alt="Летчики"></div>
-                    <h4>Летчики</h4>
-                    <p>Гильдия укротителей летунов. Уровень: 25+</p>
-                </div>
-                <div class="guild-card highlight" data-aos="flip-left" data-delay="500">
-                    <div class="guild-icon"><img src="https://i.botva.ru/i/guilds/Guild_11s.png" alt="Устрашатели"></div>
-                    <h4>Устрашатели</h4>
-                    <p>Орден по изведению страшилок. Уровень: 25+</p>
-                </div>
-            </div>
+            <h2 class="sec-title">Гильдии</h2>
+            <p class="sec-desc">11 гильдий найдены в коде — нажми на карточку для описания</p>
+            <div class="guilds-grid" id="guildsGrid"></div>
         </div>
     </section>
 
-    <!-- Pets Section -->
-    <section class="section" id="pets">
+    <!-- Pets -->
+    <section class="sec sec-alt" id="pets">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#128054;</span>
-                Питомцы (Летуны)
-            </h2>
-            <p class="section-desc" data-aos="fade-up">21 уникальный питомец найден в JS-коде игры</p>
-            <div class="pets-grid">
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_1s.jpg" alt="Шнырк"><h4>Шнырк</h4><span class="pet-id">#1</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_2s.jpg" alt="Царапка"><h4>Царапка</h4><span class="pet-id">#2</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_3s.jpg" alt="Бобруйко"><h4>Бобруйко</h4><span class="pet-id">#3</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_4s.jpg" alt="Спиношип"><h4>Спиношип</h4><span class="pet-id">#4</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_5s.jpg" alt="Енотка"><h4>Енотка</h4><span class="pet-id">#5</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_6s.jpg" alt="Броневоз"><h4>Броневоз</h4><span class="pet-id">#6</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_7s.jpg" alt="Червячелло"><h4>Червячелло</h4><span class="pet-id">#7</span></div>
-                <div class="pet-card rare" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_8s.jpg" alt="Красный Червячелло"><h4>Красный Червячелло</h4><span class="pet-id">#8</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_9s.jpg" alt="Лисистричка"><h4>Лисистричка</h4><span class="pet-id">#9</span></div>
-                <div class="pet-card rare" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_10s.jpg" alt="Красный Червячелло"><h4>Красный Червячелло II</h4><span class="pet-id">#10</span></div>
-                <div class="pet-card legendary" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_11s.jpg" alt="Феникс"><h4>Феникс</h4><span class="pet-id">#11</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_12s.jpg" alt="Обезьян"><h4>Обезьян</h4><span class="pet-id">#12</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_13s.jpg" alt="Хамелеоша"><h4>Хамелеоша</h4><span class="pet-id">#13</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_14s.jpg" alt="Хамелеоша II"><h4>Хамелеоша II</h4><span class="pet-id">#14</span></div>
-                <div class="pet-card" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_15s.jpg" alt="Хамелеоша III"><h4>Хамелеоша III</h4><span class="pet-id">#15</span></div>
-                <div class="pet-card epic" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_16s.jpg" alt="Дух древнего Червячелло"><h4>Дух древнего Червячелло</h4><span class="pet-id">#16</span></div>
-                <div class="pet-card epic" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_18s.jpg" alt="Серый Мамонтоша"><h4>Серый Мамонтоша</h4><span class="pet-id">#18</span></div>
-                <div class="pet-card epic" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_19s.jpg" alt="Белый Мамонтоша"><h4>Белый Мамонтоша</h4><span class="pet-id">#19</span></div>
-                <div class="pet-card legendary" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_20s.jpg" alt="Чёрный Мамонтоша"><h4>Чёрный Мамонтоша</h4><span class="pet-id">#20</span></div>
-                <div class="pet-card legendary" data-aos="fade-up"><img src="https://i.botva.ru/i/items/Pet_21s.jpg" alt="Красный Мамонтоша"><h4>Красный Мамонтоша</h4><span class="pet-id">#21</span></div>
-            </div>
+            <h2 class="sec-title">Питомцы (Летуны)</h2>
+            <p class="sec-desc">21 питомец — нажми для описания</p>
+            <div class="pets-grid" id="petsGrid"></div>
         </div>
     </section>
 
-    <!-- Cosmo Set Section -->
-    <section class="section section-cosmo" id="cosmo">
+    <!-- Titanuses -->
+    <section class="sec sec-titan" id="titanuses">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#128640;</span>
-                Космо-Сет — Новейшая экипировка
-            </h2>
-            <p class="section-desc" data-aos="fade-up">Полный набор космической экипировки для сталкерусов. 6 слотов, 6 уровней улучшения (0-V). Найдено в коде: item_2768 — item_2803</p>
-            <div class="cosmo-grid">
-                <div class="cosmo-item" data-aos="fade-up">
-                    <div class="cosmo-img"><img src="https://i.botva.ru/i/items/2768s.jpg" alt="Космошлем"></div>
-                    <h4>Космошлем</h4>
-                    <p>Базовый &rarr; Уровень V</p>
-                    <span class="item-ids">ID: 2768, 2774, 2780, 2786, 2792, 2798</span>
-                </div>
-                <div class="cosmo-item" data-aos="fade-up">
-                    <div class="cosmo-img"><img src="https://i.botva.ru/i/items/2769s.jpg" alt="Космобронь"></div>
-                    <h4>Космобронь</h4>
-                    <p>Базовый &rarr; Уровень V</p>
-                    <span class="item-ids">ID: 2769, 2775, 2781, 2787, 2793, 2799</span>
-                </div>
-                <div class="cosmo-item" data-aos="fade-up">
-                    <div class="cosmo-img"><img src="https://i.botva.ru/i/items/2770s.jpg" alt="Космотык"></div>
-                    <h4>Космотык</h4>
-                    <p>Базовый &rarr; Уровень V</p>
-                    <span class="item-ids">ID: 2770, 2776, 2782, 2788, 2794, 2800</span>
-                </div>
-                <div class="cosmo-item" data-aos="fade-up">
-                    <div class="cosmo-img"><img src="https://i.botva.ru/i/items/2771s.jpg" alt="Космоперчи"></div>
-                    <h4>Космоперчи</h4>
-                    <p>Базовый &rarr; Уровень V</p>
-                    <span class="item-ids">ID: 2771, 2777, 2783, 2789, 2795, 2801</span>
-                </div>
-                <div class="cosmo-item" data-aos="fade-up">
-                    <div class="cosmo-img"><img src="https://i.botva.ru/i/items/2772s.jpg" alt="Космоножи"></div>
-                    <h4>Космоножи</h4>
-                    <p>Базовый &rarr; Уровень V</p>
-                    <span class="item-ids">ID: 2772, 2778, 2784, 2790, 2796, 2802</span>
-                </div>
-                <div class="cosmo-item" data-aos="fade-up">
-                    <div class="cosmo-img"><img src="https://i.botva.ru/i/items/2773s.jpg" alt="Космощит"></div>
-                    <h4>Космощит</h4>
-                    <p>Базовый &rarr; Уровень V</p>
-                    <span class="item-ids">ID: 2773, 2779, 2785, 2791, 2797, 2803</span>
-                </div>
-            </div>
-            <div class="cosmo-stats" data-aos="fade-up">
-                <h3>Характеристики Космо-сета V уровня</h3>
-                <div class="stats-table">
-                    <div class="stat-row"><span>Космошлем V</span><span>Сила +10%, Защита +12096, Ловкость +10080, Масса +11088</span></div>
-                    <div class="stat-row"><span>Космобронь V</span><span>Сила +14044, Защита +12566, Ловкость +10%, Масса +10348</span></div>
-                    <div class="stat-row"><span>Космотык V</span><span>Сила +12768, Защита +9408, Ловкость +11424, Мастерство +10%</span></div>
-                    <div class="stat-row"><span>Космоперчи V</span><span>Сила +60% к базовой характеристике</span></div>
-                    <div class="stat-row"><span>Космоножи V</span><span>Сила +14044, Защита +10%, Ловкость +10348, Мастерство +12566</span></div>
-                    <div class="stat-row"><span>Космощит V</span><span>Сила +10%, Защита +10752, Ловкость +12768, Масса +10800</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Titanuses Section -->
-    <section class="section section-titan" id="titanuses">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#9888;</span>
-                Земли Титанусов — Будущее обновление
-            </h2>
-            <p class="section-desc" data-aos="fade-up">
-                Упоминания в JS-коде указывают на грядущий контент: <strong>Сталкерусы</strong> — новые персонажи-исследователи, 
-                <strong>Земли Титанусов</strong> — новая территория для исследований, и специальная экипировка для сталкерусов.
-            </p>
-            <div class="titan-cards">
-                <div class="titan-card" data-aos="fade-right">
-                    <div class="titan-badge new">НАЙДЕНО В КОДЕ</div>
+            <h2 class="sec-title">Земли Титанусов — Будущее обновление</h2>
+            <p class="sec-desc">Упоминания в JS-коде указывают на грядущий контент</p>
+            <div class="titan-grid">
+                <div class="titan-card">
+                    <div class="titan-badge">НАЙДЕНО В КОДЕ</div>
                     <h3>Сталкерусы</h3>
-                    <p>Новые персонажи-исследователи. Упомянуты в описаниях предметов: «Квантовый сундук» (item_2765) — содержит кванты сталкерусов для привлечения новых членов команды или усиления существующих.</p>
-                    <div class="source-code">
-                        <code>popups['item_2765'] = ["Квантовый сундук", "...", "Сундук с выбором квантов сталкерусов поможет вам привлечь новых членов команды, или же усилить тех, что уже есть."]</code>
-                    </div>
+                    <p>Новые персонажи-исследователи. «Квантовый сундук» (item_2765) — содержит кванты сталкерусов для привлечения новых членов команды.</p>
+                    <div class="code-block"><code>popups['item_2765'] = ["Квантовый сундук", "...", "Сундук с выбором квантов сталкерусов..."]</code></div>
                 </div>
-                <div class="titan-card" data-aos="fade-left">
-                    <div class="titan-badge new">НАЙДЕНО В КОДЕ</div>
+                <div class="titan-card">
+                    <div class="titan-badge">НАЙДЕНО В КОДЕ</div>
                     <h3>Земли Титанусов</h3>
-                    <p>Новая локация. Найдена в описании «Фрагментарного сундука» (item_2766): содержит фрагменты экипировки для сталкерусов, которые помогут в исследованиях земель Титанусов.</p>
-                    <div class="source-code">
-                        <code>popups['item_2766'] = ["Фрагментарный сундук", "...", "В сундуке можно найти различные фрагменты экипировки, из которых можно собрать вещи для сталкерусов, которые помогут им в исследованиях земель Титанусов."]</code>
+                    <p>Новая локация. «Фрагментарный сундук» (item_2766) — фрагменты экипировки для сталкерусов, которые помогут в исследованиях земель Титанусов.</p>
+                    <div class="code-block"><code>popups['item_2766'] = ["Фрагментарный сундук", "...", "...для сталкерусов, которые помогут им в исследованиях земель Титанусов."]</code></div>
+                </div>
+                <div class="titan-card wide">
+                    <div class="titan-badge cosmo-badge">КОСМО-СЕТ</div>
+                    <h3>Космическая экипировка</h3>
+                    <p>36 предметов (6 слотов &times; 6 уровней, ID 2768-2803) — Космошлем, Космобронь, Космотык, Космоперчи, Космоножи, Космощит. Каждый улучшается от базового до V уровня.</p>
+                    <div class="cosmo-tags">
+                        <span>Космошлем 0-V</span><span>Космобронь 0-V</span><span>Космотык 0-V</span>
+                        <span>Космоперчи 0-V</span><span>Космоножи 0-V</span><span>Космощит 0-V</span>
                     </div>
                 </div>
-                <div class="titan-card full-width" data-aos="fade-up">
-                    <div class="titan-badge gear">КОСМО-ЭКИПИРОВКА</div>
-                    <h3>Экипировка для Титанусов</h3>
-                    <p>Полный космический набор из 36 предметов (6 слотов &times; 6 уровней) предназначен для сталкерусов. Также обнаружен «УраНовый сундук» (item_2767) — вероятно, связан с новогодним событием и новыми землями.</p>
-                    <div class="titan-items">
-                        <span class="titan-item-tag">Космошлем 0-V</span>
-                        <span class="titan-item-tag">Космобронь 0-V</span>
-                        <span class="titan-item-tag">Космотык 0-V</span>
-                        <span class="titan-item-tag">Космоперчи 0-V</span>
-                        <span class="titan-item-tag">Космоножи 0-V</span>
-                        <span class="titan-item-tag">Космощит 0-V</span>
-                    </div>
-                </div>
-                <div class="titan-card" data-aos="fade-right">
-                    <div class="titan-badge magic">МАГИЯ</div>
+                <div class="titan-card">
+                    <div class="titan-badge magic-badge">МАГИЯ</div>
                     <h3>Артефакт «Титан»</h3>
-                    <p>Магический свиток item_magic_123 — «Позволяет надевать вещи +2 уровня». Прямая связь с механикой Титанусов.</p>
+                    <p>item_magic_123 — «Позволяет надевать вещи +2 уровня».</p>
                 </div>
-                <div class="titan-card" data-aos="fade-left">
-                    <div class="titan-badge new">НОВЫЕ АРТЕФАКТЫ</div>
-                    <h3>Боевые артефакты</h3>
-                    <p>Ревун (2804), Вскрывашка консерв (2805), Вонючка (2806) — снижают характеристики противников. Плюмаж достоинства (2807), Пика точёная (2808) — увеличивают награды.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newest Items Section -->
-    <section class="section section-dark" id="newest">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#10024;</span>
-                Новейшие предметы (2700+)
-            </h2>
-            <p class="section-desc" data-aos="fade-up">Самые свежие добавления в игру — найдены в JS-коде pp.av2.js</p>
-            <div class="items-grid" id="itemsGrid">
-                <!-- Items will be populated by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Artifacts Section -->
-    <section class="section" id="artifacts">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#128142;</span>
-                Новые артефакты
-            </h2>
-            <p class="section-desc" data-aos="fade-up">Последние боевые артефакты, обнаруженные в коде</p>
-            <div class="artifacts-grid">
-                <div class="artifact-card" data-aos="zoom-in">
-                    <div class="artifact-img"><img src="https://i.botva.ru/i/items/2804s.jpg" alt="Ревун"></div>
-                    <div class="artifact-info">
-                        <h4>Ревун <span class="artifact-id">#2804</span></h4>
-                        <p>Снижение базовых характеристик противника в бодалке на 0,4%. Усиливается на 0,2% за уровень. Макс: 30% на 100 ур.</p>
-                        <div class="artifact-tier">Боевой артефакт</div>
-                    </div>
-                </div>
-                <div class="artifact-card" data-aos="zoom-in">
-                    <div class="artifact-img"><img src="https://i.botva.ru/i/items/2805s.jpg" alt="Вскрывашка консерв"></div>
-                    <div class="artifact-info">
-                        <h4>Вскрывашка консерв <span class="artifact-id">#2805</span></h4>
-                        <p>Снижает базовые характеристики соперника на арене. От 0,4% до 20% (ур. 99). 100-й уровень: +10% = 30%.</p>
-                        <div class="artifact-tier">Арена артефакт</div>
-                    </div>
-                </div>
-                <div class="artifact-card" data-aos="zoom-in">
-                    <div class="artifact-img"><img src="https://i.botva.ru/i/items/2806s.jpg" alt="Вонючка"></div>
-                    <div class="artifact-info">
-                        <h4>Вонючка <span class="artifact-id">#2806</span></h4>
-                        <p>Снижает боевую мощь зверушки соперника в бодалке. От 0,4% до 30% на макс уровне.</p>
-                        <div class="artifact-tier">Анти-пет артефакт</div>
-                    </div>
-                </div>
-                <div class="artifact-card" data-aos="zoom-in">
-                    <div class="artifact-img"><img src="https://i.botva.ru/i/items/2807s.jpg" alt="Плюмаж достоинства"></div>
-                    <div class="artifact-info">
-                        <h4>Плюмаж достоинства <span class="artifact-id">#2807</span></h4>
-                        <p>Увеличивает награду очков арены за победу. От 1% до 50% (ур. 99). 100-й уровень: +25% = 75%.</p>
-                        <div class="artifact-tier">Наградной артефакт</div>
-                    </div>
-                </div>
-                <div class="artifact-card" data-aos="zoom-in">
-                    <div class="artifact-img"><img src="https://i.botva.ru/i/items/2808s.jpg" alt="Пика точёная"></div>
-                    <div class="artifact-info">
-                        <h4>Пика точёная <span class="artifact-id">#2808</span></h4>
-                        <p>Новейший боевой артефакт. Подробности уточняются.</p>
-                        <div class="artifact-tier">Боевой артефакт</div>
-                    </div>
+                <div class="titan-card">
+                    <div class="titan-badge">СТАЛКЕРУСЫ</div>
+                    <h3>Кванты сталкерусов</h3>
+                    <p>Кислый Эолан, Вишневый Люмион, Лимонный Фростиан, Мятный Сильван, Малиновый Эльрион, Апельсиновый Нивиан, Ежевичный Корвиан, Голубичный Велиан, Радужный Стультан — 9 уникальных квантов!</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Tech Info Section -->
-    <section class="section section-dark" id="tech">
+    <!-- ALL ITEMS -->
+    <section class="sec" id="all-items">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                <span class="title-icon">&#128187;</span>
-                Технические находки
-            </h2>
-            <p class="section-desc" data-aos="fade-up">Интересные детали из исходного кода avatar.botva.ru и g1.botva.ru</p>
+            <h2 class="sec-title">Все предметы игры</h2>
+            <p class="sec-desc">1973 предмета извлечены из pp.av2.js — нажми на карточку для описания</p>
+            <div class="filter-bar">
+                <input type="text" id="searchInput" placeholder="Поиск по названию..." class="search-input">
+                <div class="filter-btns" id="filterBtns">
+                    <button class="fbtn active" data-cat="all">Все (1973)</button>
+                    <button class="fbtn" data-cat="weapons">Оружие</button>
+                    <button class="fbtn" data-cat="armor">Броня</button>
+                    <button class="fbtn" data-cat="potions">Зелья</button>
+                    <button class="fbtn" data-cat="gems">Камни</button>
+                    <button class="fbtn" data-cat="scrolls">Свитки</button>
+                    <button class="fbtn" data-cat="amulets">Кулоны</button>
+                    <button class="fbtn" data-cat="chests">Сундуки</button>
+                    <button class="fbtn" data-cat="keys">Ключи</button>
+                    <button class="fbtn" data-cat="gifts">Подарки</button>
+                    <button class="fbtn" data-cat="accessories">Пуговицы/Булавки</button>
+                    <button class="fbtn" data-cat="artifacts">Артефакты</button>
+                    <button class="fbtn" data-cat="fragments">Фрагменты</button>
+                    <button class="fbtn" data-cat="stalkerus">Сталкерусы</button>
+                    <button class="fbtn" data-cat="poems">Стишки</button>
+                    <button class="fbtn" data-cat="newest">Новейшие</button>
+                </div>
+            </div>
+            <div class="items-count" id="itemsCount"></div>
+            <div class="items-grid" id="itemsGrid"></div>
+            <button class="load-more-btn" id="loadMore" style="display:none;">Показать ещё</button>
+        </div>
+    </section>
+
+    <!-- Tech -->
+    <section class="sec sec-alt" id="tech">
+        <div class="container">
+            <h2 class="sec-title">Технические находки</h2>
             <div class="tech-grid">
-                <div class="tech-card" data-aos="fade-up">
-                    <h4>Стек технологий</h4>
-                    <ul>
-                        <li>jQuery v1.11.3</li>
-                        <li>Кодировка: windows-1251</li>
-                        <li>Домен: botva.ru (document.domain)</li>
-                        <li>CDN изображений: i.botva.ru</li>
-                        <li>Минификация: Minify (Google Code)</li>
-                    </ul>
-                </div>
-                <div class="tech-card" data-aos="fade-up">
-                    <h4>JS-файлы</h4>
-                    <ul>
-                        <li>outerjs (v=1204) — 618 КБ, jQuery + UI</li>
-                        <li>pp.av2.js (v=1204) — 1.78 МБ, данные предметов</li>
-                        <li>html5shiv.min.js — IE8 поддержка</li>
-                    </ul>
-                </div>
-                <div class="tech-card" data-aos="fade-up">
-                    <h4>CSS-файлы</h4>
-                    <ul>
-                        <li>outercss (v=1271) — основные стили</li>
-                        <li>outercss2 (v=1271) — дополнительные</li>
-                        <li>ava_bg3day.css — фоны дня/ночи</li>
-                        <li>Шрифт: DS Coptic (кастомный)</li>
-                    </ul>
-                </div>
-                <div class="tech-card" data-aos="fade-up">
-                    <h4>Валюты игры</h4>
-                    <ul>
-                        <li>Золото (money_1)</li>
-                        <li>Кристаллы (money_2)</li>
-                        <li>Зелень (money_3)</li>
-                        <li>Пирашки (money_fish / money_10)</li>
-                        <li>Пиастры (money_108)</li>
-                        <li>Рабы (slaves)</li>
-                    </ul>
-                </div>
-                <div class="tech-card" data-aos="fade-up">
-                    <h4>Аналитика</h4>
-                    <ul>
-                        <li>Google Tag Manager (GTM-KH95RD8)</li>
-                        <li>Яндекс.Метрика (ID: 12136408)</li>
-                        <li>LiveInternet counter</li>
-                        <li>ClickFrog Pixel</li>
-                        <li>VK Retargeting pixel</li>
-                        <li>Destiny Scope Analytics</li>
-                    </ul>
-                </div>
-                <div class="tech-card" data-aos="fade-up">
-                    <h4>Авторизация</h4>
-                    <ul>
-                        <li>VK OAuth2</li>
-                        <li>Facebook Login</li>
-                        <li>Twitter Login</li>
-                        <li>Destiny ID</li>
-                        <li>Email / Имя персонажа</li>
-                    </ul>
-                </div>
+                <div class="tech-card"><h4>Стек</h4><ul><li>jQuery v1.11.3</li><li>windows-1251</li><li>CDN: i.botva.ru</li><li>Minify (Google Code)</li></ul></div>
+                <div class="tech-card"><h4>JS-файлы</h4><ul><li>outerjs (v=1204) — 618 КБ</li><li>pp.av2.js (v=1204) — 1.78 МБ</li></ul></div>
+                <div class="tech-card"><h4>Валюты</h4><ul><li>Золото</li><li>Кристаллы</li><li>Зелень</li><li>Пирашки</li><li>Пиастры</li></ul></div>
+                <div class="tech-card"><h4>Аналитика</h4><ul><li>Google Tag Manager</li><li>Яндекс.Метрика</li><li>LiveInternet</li><li>VK Pixel</li></ul></div>
+                <div class="tech-card"><h4>Авторизация</h4><ul><li>VK OAuth2</li><li>Facebook Login</li><li>Twitter Login</li><li>Destiny ID</li></ul></div>
+                <div class="tech-card"><h4>Новые артефакты</h4><ul><li>Ревун (#2804) — -30% хар. в бодалке</li><li>Вскрывашка (#2805) — -30% на арене</li><li>Вонючка (#2806) — -30% мощь зверушки</li><li>Плюмаж (#2807) — +75% очков арены</li><li>Пика точёная (#2808)</li></ul></div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>Исследователь игрового мира Ботва Онлайн &bull; Данные извлечены из исходников avatar.botva.ru и g1.botva.ru</p>
-            <p class="footer-copy">&copy; Destiny.Games 2008-2026. Все права на игру принадлежат разработчикам.</p>
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-img" id="modalImg"></div>
+            <h3 id="modalTitle"></h3>
+            <p class="modal-id" id="modalId"></p>
+            <p class="modal-desc" id="modalDesc"></p>
         </div>
+    </div>
+
+    <footer class="footer">
+        <p>Исследователь Ботва Онлайн &bull; Данные из исходников avatar.botva.ru и g1.botva.ru</p>
+        <p>&copy; Destiny.Games 2008-2026</p>
     </footer>
 
+    <script src="items_data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
